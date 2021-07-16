@@ -1,0 +1,570 @@
+  body {
+    /*
+    background-color: rgb(32, 32, 32);
+    background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black), linear-gradient(to bottom, rgb(8, 8, 8), rgb(32, 32, 32));
+    background-size: 10px 10px, 10px 10px, 10px 5px;
+    background-position: 0px 0px, 5px 5px, 0px 0px;
+    */
+    background-color: #eee;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  
+
+  .flexin{
+      display:inline-flex;
+  }
+  .configuracoesMicroMecanica{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    align-content: flex-start;
+  }
+
+  .configuracoesMicroMecanica input{
+    width:200px;
+  }
+
+  .micromecanica{
+    
+    display: flex;
+    justify-content: space-evenly;
+
+  }
+
+  #resultadosMicroMecanica table tr td{
+    text-align: right;
+  }
+
+  .grupo input{
+    width: calc(176px / 3) ;
+  }
+
+  .borda1pxPreto{
+    border:1px solid black;
+    border-collapse: collapse;
+  }
+
+  .vertical{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calculado{
+    /*background-color: limegreen;*/
+  }
+
+  .largura80p{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+
+  }
+
+  .linha{    
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    background-color: #ccc;
+  }
+
+  .item{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    align-items: stretch;  
+  }
+
+  .item label{
+  }
+  .item input{
+    padding: 5px 5px 5px 5px;
+    border-radius: 50px;
+    border-width: 0px;
+    max-width: 100px;
+    margin: 5px auto 5px auto;
+    text-align: center;
+
+  }
+  .seta{
+    font-size: 30px;
+    width: 0;
+    height: 0;
+    position: relative;
+    left: -20px;
+    font-weight: bold;
+  }
+ 
+
+  .tit{
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .reforco{
+    background-color: rgb(194, 194, 194);
+  }
+
+  .matriz{
+    background-color: rgb(255, 255, 140);
+
+  }
+
+  .vazios{
+    background-color: rgb(208, 208, 255);
+
+  }
+
+  .composito{
+    background-color: dimgray;
+    color: white;
+  }
+
+  .largura80p > div{
+    transition: max-height 1s ease-in-out;
+    overflow: hidden;
+
+    max-height: 6000px;
+  }
+
+  .esconder{
+    max-height:0px !important;
+    overflow: hidden;
+  }
+
+  .travado{
+    /*background-color: rgb(152, 152, 255);*/
+    background:repeating-linear-gradient(
+      -46deg,
+      #222,
+      #222 10px,
+      #333 10px,
+      #333 20px);
+    color: white;
+  }
+
+  .travado:hover{
+    cursor:not-allowed;
+    pointer-events: all !important;
+
+  }
+
+  input{
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="30px" height="20px"><text x="5" y="15">x&#xf2d3;</text></svg>');
+    background-position: right center;
+    background-repeat: no-repeat no-repeat;
+  }
+
+
+  .titulo{
+    border-radius: 100px 100px 0 0;  
+  }
+
+  .titulo:hover{
+    cursor:pointer !important; 
+  }
+
+  .rodape{
+    border-radius: 0 0 100px 100px;  
+
+  }
+
+  .estadoPlano{
+    display: flex;
+    height: 200px;
+    width: 200px;
+    flex-direction: row;    
+    transform: scale(0.9);
+  }
+
+  .col1{
+    display: flex;
+    width: 50px;
+    height: 100%;
+    justify-content: flex-end;
+    /*align-items: center;*/
+  }
+
+  .col2{
+    height: 100%;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  :root {
+    --angulo: 0deg;
+}
+  .quadrado{
+    height: 100px;
+    width: 100px;
+    /*background-color: pink;*/
+    border:1px solid black;
+    /*--angulo:0deg;*/
+    background:repeating-linear-gradient(
+      calc(var(--angulo)*(-1)),
+      #222,
+      #222 10px,
+      #333 10px,
+      #333 20px);
+    color: white;
+    position: relative;
+    /*margin-top: 50px;*/
+  }
+
+  .col3{
+    display: flex;
+    width: 50px;
+    height: 100%;
+    justify-content: flex-start;
+    /*align-items: center;*/
+  }
+
+  .h15{
+    height: 15px;
+  }
+  .h20{
+    height: 20px;
+  }
+  
+  .h30{
+    height: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .h35{
+    height: 35px;
+  }
+  .h50{
+    height:50px;
+  }
+
+  .l20{
+    width: 20px;
+    height: 100%;
+  }
+  .l30{
+    width: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px -9px 0 -9px;
+    flex-direction: row;
+    align-content: flex-end;
+
+  }
+
+  
+  .textoEstadoPlano1{
+    position: absolute;
+    margin-top: -40px;
+    margin-left: 25px;
+    width: 100%
+  }
+
+  .textoEstadoPlano2{
+    position: absolute;
+    margin-left: 70px;
+    margin-top: 5px;
+    width: 100%;
+  }
+
+
+  .textoEstadoPlano12{
+    position: absolute;
+    margin-top: -25px;
+    margin-left: -85px;
+    width: 100%;
+  }
+
+
+  .baixoMenos80{
+    margin-top:80px !important;
+  }
+
+
+  /*
+  Inspirado e modificado do:
+    Pure CSS Arrows
+  HTML and CSS arrows.
+  Made by Saeed Alipoor
+  February 16, 2015
+  https://freefrontend.com/assets/zip/css-arrows/pure-css-arrows.zip
+  https://codepen.io/saeedalipoor/pen/NPyeog
+  */
+  [class*="icono"] {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    color: #666;
+    box-sizing: border-box;
+  }
+  [class*="icono"]:after,
+  [class*="icono"]:before {
+    content: "";
+    box-sizing: border-box;
+  }
+  [class*="icono-arrow2"] {
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: solid;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    /*margin: 10px;*/
+    margin:3px;
+    transform-origin: -21px +33px;
+    left:26px;
+    top:10px;
+  }
+  [class*="icono-arrow2"]:before {
+    right: 0;
+    top: -3px;
+    position: absolute;
+    height: 4px;
+    box-shadow: inset 0 0 0 32px;
+    transform: rotate(-45deg);
+    width: 86px;
+    transform-origin: right top;
+  }
+  [class*="icono-arrow2"][class*="-normal"]:before {
+   width: 45px;
+  }
+  [class*="icono-arrow2"][class*="-eixoX"] {
+    transform-origin: -7px 19px;
+    margin-top: -50px !important;
+    margin-left: -24px;
+   }
+  [class*="icono-arrow2"][class*="-eixoY"] {
+    transform-origin: -7px 19px;
+    margin-top: -20px;
+    margin-left: -20px;
+   }
+  [class*="icono-arrow2"][class*="-right"] {
+    transform: rotate(45deg);
+    margin-top: -73px;
+  }
+  [class*="icono-arrow2"][class*="-right"][class*="-up"] {
+    transform: none;
+  }
+  [class*="icono-arrow2"][class*="-right"][class*="-down"] {
+    transform: rotate(90deg);
+  }
+  [class*="icono-arrow2"][class*="-left"] {
+    transform: rotate(-135deg);
+    margin-top: -73px;
+  }
+  [class*="icono-arrow2"][class*="-left"][class*="-up"] {
+    transform: rotate(-90deg);
+  }
+  [class*="icono-arrow2"][class*="-left"][class*="-down"] {
+    transform: rotate(180deg);
+  }
+  [class*="icono-arrow2"][class*="-up"] {
+    transform: rotate(-45deg);
+  }
+  [class*="icono-arrow2"][class*="-down"] {
+    transform: rotate(135deg);
+  }
+  
+
+
+  .alinharCentro{
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  /* Inspirado por techfoobar, http://jsfiddle.net/NQ6ww/38/ , https://stackoverflow.com/questions/11561137/html-css-for-brackets-around-mathematical-matrix-prefer-lightweight*/
+
+  .matrix {
+    position: relative;
+    margin:10px;
+  }
+  .matrix:before, .matrix:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    border: 2px solid #000;
+    width: 6px;
+    height: 100%;
+}
+.matrix:before {
+    left: -6px;
+    border-right: 0px;
+}
+.matrix:after {
+    right: -6px;
+    border-left: 0px;
+}
+.matrix td {
+    padding: 5px;    
+    text-align: center;
+}
+
+.lamina{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: center;
+}
+
+.lamina h3{
+  width:100%;
+}
+
+.lamina div{    
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 50px;
+}
+
+.desenhoLaminas{
+  
+  display: flex;
+  flex-direction: column;
+
+}
+
+.laminaQuadrado{
+  transform: perspective(1000px) rotateX(65deg) rotateY(0deg) rotateZ(-25deg);
+  height: 100px;
+  width: 100px;
+  /* background-color: pink; */
+  border: 1px solid black;
+  /* --angulo: 0deg; */
+  background: repeating-linear-gradient( calc(var(--angulo)*(-1)), #222, #222 10px, #333 10px, #333 20px);
+  color: white;
+  position: relative;
+  margin-bottom:-50px;
+}
+
+
+
+.h350{
+  height:350px;
+}
+.eixo12{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  position: absolute;
+  
+  bottom: 40px;
+  left:40px;
+  transform: rotate(calc(var(--angulo)*(-1)));
+}
+
+.eixo12-2{
+  position: absolute;
+  margin-top: -37px;
+}
+
+.eixo12-2 div{
+  transform: scale(1,2);
+}
+
+.eixo12-2 span{
+  position: absolute;
+  font-size: 15px;
+  margin-top: -35px;
+  margin-left: -20px;
+}
+
+.eixo12-1{
+  position: absolute;
+  margin-left: 36px;
+}
+
+.eixo12-1 div{
+  transform: scale(2,1);
+}
+
+.eixo12-1 span{
+  
+  position: absolute;
+  margin-top: -5px;
+  margin-left: 5px;
+  font-size: 15px;
+
+}
+
+
+
+.eixoXY{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom:-30px;
+  left:-30px;
+  font-size: 25px;
+  position: absolute;
+  color: #333;
+}
+
+.eixoXY-Y{
+  position: absolute;
+  margin-top: -37px;
+}
+
+.eixoXY-Y div{
+  transform: scale(1,2);
+}
+
+.eixoXY-Y span{
+  position: absolute;
+  font-size: 15px;
+  margin-top: -35px;
+  margin-left: -20px;
+}
+
+.eixoXY-X{
+  position: absolute;
+  margin-left: 36px;
+}
+
+.eixoXY-X div{
+  transform: scale(2,1);
+}
+
+.eixoXY-X span{
+  
+  position: absolute;
+  margin-top: -5px;
+  margin-left: 5px;
+  font-size: 15px;
+
+}
+
+/*
+.laminas{
+  transition: all 1s;
+  
+}
+
+/*
+.laminasH{
+  display: flex;
+    flex-direction: row;
+    transition: transform 1s;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.laminasH > div{
+  transform: none
+}
+
+*/
+
+.nota{
+  width:60%;
+  margin:0 auto;
+}

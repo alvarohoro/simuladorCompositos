@@ -1,0 +1,9 @@
+{
+    "materiais":[
+        {
+            "tipo":"matriz",
+            "nome":"resina epóxi",
+            "resistencia":20E6
+        }
+    ]
+}
