@@ -422,7 +422,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 10px 50px;
+  padding: 10px 30px;
 }
 
 .desenhoLaminas{
@@ -567,4 +567,40 @@
 .nota{
   width:60%;
   margin:0 auto;
+}
+
+/*https://stackoverflow.com/questions/3742975/subscript-and-superscript-for-the-same-element*/
+.supsub {
+  display: inline-block;
+}
+
+.supsub sup,
+.supsub sub {
+  position: relative;
+  display: block;    
+  font-size: .6em;
+  line-height: 0.7;
+}
+
+.supsub sub {
+  top: .3em;
+}
+
+.alinharTextoEsquerda{ 
+  text-align: left;
+}
+
+.explicacao{    
+  text-align: left;
+  background-color: greenyellow;
+  width: 100%;
+  border: 8px solid #333;
+}
+
+.explicacao ul{
+  list-style: lower-roman;
+}
+
+.explicacao h4{
+  margin-left:20px;
 }

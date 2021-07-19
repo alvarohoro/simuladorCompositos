@@ -15,18 +15,7 @@
 <body>
 
     
-    <div class="nota">
-        O presente simulador é resultado do Trabalho Final de Graduação do Aluno Alvaro Horowicz Martins do curso de Engenharia Mecânica Aeronáutica da Universidade Federal de Itajubá (UNIFEI).
-        Última atualização em 16/07/2021 às 15:48.
-        <br>
-        Até o momento foram implementados os seguintes recursos:
-        <br>
-        <ul>
-            <li>Cálculos de Micro-mecânica</li>
-            <li>Cálculos da Macro-mecânica para uma lâmina</li>
-            <li>Cálculos da Macro-mecânica para um laminado</li>
-        </ul>
-    </div>
+   
 
     <!-- Micro-mecânica -->
     <div class="largura80p">
@@ -37,6 +26,40 @@
 
         </div>
         <div id="conteudoMicro" class="esconder">
+
+            <div class="linha">
+
+                <div class="explicacao alinharTextoEsquerda">
+                    <h4>Considerações:</h4>
+
+                    <ul>
+                         <li>
+                             A micro-mecânica permite compreender a composição da um material compósito.
+                         </li>
+                         <li>
+                             Para o uso da ferramenta abaixo insira os valores nas caixas. 
+                         </li>
+                         <li>
+                             Para números decimais use ponto ao invés de vírgula. 
+                         </li>
+                         <li>
+                             Para alterar algum valor bloqueado, clique duas vezes para torná-lo editável novamente.
+                         </li>
+                         <li>
+                             Os cálculos ocorrem toda vez que um valor é adicionado ou alterado.
+                         </li>
+                    </ul>
+                </div> 
+             </div>
+
+             <div class="linha">
+                <div class="reforco tit item"><br></div>
+                <div class="matriz tit item"></div>
+                <div class="vazio tit item"></div>    
+                <div class="composito tit item"></div>    
+    
+            </div>
+             
             <div class="linha">
                 <div class="reforco tit item">Fase de Reforço (Fibra)</div>
                 <div class="matriz tit item">Fase de Matriz</div>
@@ -251,6 +274,92 @@
                 </div>    
     
             </div>
+
+
+
+            
+            <div class="linha">
+                <div class="reforco item">
+                    <label for="sigmaFTult">Tensão últ. das fibras em tração (&sigma;<span class="supsub"><sup>T</sup><sub>f</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="sigmaFTult" placeholder="Ex.: 52">
+                </div>
+                <div class="matriz item">
+                    <label for="sigmaMTult">Tensão últ. da matriz em tração (&sigma;<span class="supsub"><sup>T</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="sigmaMTult" placeholder="Ex.: 12">
+                </div>
+                <div class="vazio item"></div>
+                <div class="composito item">
+                    <label for="sigma1Tult">Tensão últ. 1 (fibras) em tração (&sigma;<span class="supsub"><sup>T</sup><sub>1</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="sigma1Tult" placeholder="Ex.: 52">
+               
+                    <label for="sigma2Tult">Tensão últ. 2 (matriz) em tração (&sigma;<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="sigma2Tult" placeholder="Ex.: 52">
+               
+                </div>
+            </div>
+
+            <div class="linha">
+                <div class="reforco item">
+                    <label for="sigmaFCult">Tensão últ. das fibras em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>f</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="sigmaFCult" placeholder="Ex.: 52">
+                </div>
+                <div class="matriz item">
+                    <label for="sigmaMCult">Tensão últ. da matriz em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="sigmaMCult" placeholder="Ex.: 12">
+                </div>
+                <div class="vazio item"></div>
+                <div class="composito item">
+
+
+
+                    <label for="epsilonMC">Deformação da matriz em Compressão (&epsilon;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="epsilonMC" placeholder="Ex.: 12">
+
+                    <label for="sigmaMCult">Tensão últ. da matriz em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="sigma2Cult" placeholder="Ex.: 12">
+
+
+                </div>
+            </div>
+
+            <div class="linha">
+                <div class="reforco item">
+                    <label for="tauFult">Tensão de cisalhamento última das fibras (&tau;<sub>f</sub>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="tauFult" placeholder="Ex.: 52">
+                </div>
+                <div class="matriz item">
+                    <label for="tauMult">Tensão de cisalhamento última da matriz (&tau;<sub>m</sub>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="tauMult" placeholder="Ex.: 12">
+                </div>
+                <div class="vazio item"></div>
+                <div class="composito item">
+
+                    <label for="tau12ult">Tensão de cisalhamento última (&tau;<sub>12</sub>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="tau12ult" placeholder="Ex.: 12">
+
+
+                    <label for="epsilonMult">Deformação Última da matriz (&epsilon;<sub>m</sub>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="epsilonMult" placeholder="Ex.: 12">
+                    
+                    <label for="menorEpsilonTransvUlt">Menor Deforamção Última Transversal (&epsilon;<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub> [GPa]:</label>
+                    <input type="text" id="menorEpsilonTransvUlt" placeholder="Ex.: 12">
+                    
+
+                    <label for="modo1">Modo 1 [Pa]:</label>
+                    <input type="text" id="modo1" placeholder="Ex.: 12">
+
+                    <label for="modo2">Modo 2 [Pa]:</label>
+                    <input type="text" id="modo2" placeholder="Ex.: 12">
+
+                    <label for="modo3">Modo 3 [Pa]:</label>
+                    <input type="text" id="modo3" placeholder="Ex.: 12">
+
+                </div>
+                
+            </div>
+            -->
+           
+
         </div>
         
         <div class="linha titulo rodape travado" onclick="ocultarExibir('conteudoMicro')">
@@ -270,23 +379,49 @@
         <div id="conteudoMacroLamina" class="esconder">
 
             <div class="linha">
+               <div class="explicacao alinharTextoEsquerda">
+                <h4>Considerações:</h4>
+                   <ul>
+                        <li>
+                            Uma lâmina é uma única camada composta por fibra e matriz. 
+                        </li>
+                        <li>
+                            Na macro-mecânica existe o interesse calcular certas propriedades como flexibilidade, rigidez, tensões, deformações, tanto globais como locais.
+                        </li>
+                        <li>
+                            Para o uso da ferramenta abaixo insira os valores nas caixas. 
+                        </li>
+                        <li>
+                            Para números decimais use ponto ao invés de vírgula. 
+                        </li>
+                        <li>
+                            Para alterar algum valor bloqueado, clique duas vezes para torná-lo editável novamente.
+                        </li>
+                        <li>
+                            Os cálculos ocorrem toda vez que um valor é adicionado ou alterado.
+                        </li>
+                   </ul>
+               </div> 
+            </div>
+
+            <div class="linha">
                 
                 <div>
                     <div class="item">
                         <label for="sigmaX">Tensão na direção X [MPa]:</label>
-                        <input type="text" id="sigmaX" unidade="MPa" multiplicador="10e6" placeholder="Ex.: 52">
+                        <input type="text" id="sigmaX" unidade="MPa" multiplicador="10e6" placeholder="Ex.: 2">
                     </div>  
                     <div class="item">
                         <label for="sigmaY">Tensão na direção Y [MPa]:</label>
-                        <input type="text" id="sigmaY" unidade="MPa" multiplicador="10e6" placeholder="Ex.: 52">
+                        <input type="text" id="sigmaY" unidade="MPa" multiplicador="10e6" placeholder="Ex.: -3">
                     </div>
                     <div class="item">
                         <label for="tauXY">Tensão na direção XY [MPa]:</label>
-                        <input type="text" id="tauXY" unidade="MPa" multiplicador="10e6" placeholder="Ex.: 52">
+                        <input type="text" id="tauXY" unidade="MPa" multiplicador="10e6" placeholder="Ex.: 4">
                     </div>    
                     <div class="item">
                         <label for="angulo">Ângulo &theta; [º]:</label>
-                        <input type="text" id="angulo" unidade="º" value="0" multiplicador="1" placeholder="Ex.: 45">
+                        <input type="text" id="angulo" unidade="º" value="0" multiplicador="1" placeholder="Ex.: 60">
                     </div>
                     
                 </div>
@@ -294,19 +429,19 @@
                 <div>
                     <div class="item">
                         <label for="E1Macro">E1 [GPa]:</label>
-                        <input type="text" id="E1Macro" unidade="GPa" multiplicador="10e9" placeholder="Ex.: 52">
+                        <input type="text" id="E1Macro" unidade="GPa" multiplicador="10e9" placeholder="Ex.: 181">
                     </div>  
                     <div class="item">
                         <label for="E2Macro">E2 [GPa]:</label>
-                        <input type="text" id="E2Macro" unidade="GPa" multiplicador="10e9" placeholder="Ex.: 52">
+                        <input type="text" id="E2Macro" unidade="GPa" multiplicador="10e9" placeholder="Ex.: 10.3">
                     </div>  
                     <div class="item">
                         <label for="nu12Macro">&nu;12 [u.a.]:</label>
-                        <input type="text" id="nu12Macro" unidade="" multiplicador="1" placeholder="Ex.: 52">
+                        <input type="text" id="nu12Macro" unidade="" multiplicador="1" placeholder="Ex.: 0.28">
                     </div>
                     <div class="item">
                         <label for="G12Macro">G12 [GPa]:</label>
-                        <input type="text" id="G12Macro" unidade="GPa" multiplicador="10e9" placeholder="Ex.: 52">
+                        <input type="text" id="G12Macro" unidade="GPa" multiplicador="10e9" placeholder="Ex.: 7.17">
                     </div>  
                 </div>
                
@@ -387,6 +522,54 @@
     
             </div>
     
+            <div class="linha">
+                <h3>Análise de Falhas:</h3>
+            </div>
+
+            <div class="linha">
+                <div>
+                    <div class="item">
+                        <label for="sigma1TultF">Tensão últ. longitudinal em tração (&sigma;<span class="supsub"><sup>T</sup><sub>1</sub></span>)<sub>ult</sub> [MPa]:</label>
+                        <input type="text" id="sigma1TultF" unidade="MPa" placeholder="Ex.: 1500">
+                 
+                    </div>
+                   
+                    <div class="item">
+                        <label for="sigma1CultF">Tensão últ. longitudinal em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>1</sub></span>)<sub>ult</sub> [MPa]:</label>
+                        <input type="text" id="sigma1CultF" unidade="MPa" placeholder="Ex.: 1500">
+                
+                    </div>
+                </div>
+                <div>
+                    <div class="item">
+                        <label for="sigma2TultF">Tensão últ. longitudinal em tração (&sigma;<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub> [MPa]:</label>
+                        <input type="text" id="sigma2TultF" unidade="MPa" placeholder="Ex.: 40">
+                 
+                    </div>
+                   
+                    <div class="item">
+                        <label for="sigma2CultF">Tensão últ. longitudinal em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>2</sub></span>)<sub>ult</sub> [MPa]:</label>
+                        <input type="text" id="sigma2CultF" unidade="MPa" placeholder="Ex.: 246">
+                
+                    </div>
+                </div>
+                <div>
+                
+                    <div class="item">
+                        <label for="tau12UltF">Tensão de cisalhamento último no plano (&tau;<sub>12</sub>)<sub>ult</sub> [MPa]:</label>
+                        <input type="text" id="tau12UltF" unidade="MPa" placeholder="Ex.: 68">
+                  
+                    </div>
+                   
+                </div>
+            
+            </div>
+
+            <div class="linha">
+               
+                <div class="alinharTextoEsquerda" id="resultadosFalha"></div>
+               
+            </div>
        
             <div class="linha">
                 <div id="lamina" class="lamina"></div>
@@ -407,6 +590,43 @@
         </div> 
 
         <div id="conteudoMacroLaminado" class="esconder">
+
+            
+            <div class="linha">
+                <div class="explicacao alinharTextoEsquerda">
+                    <h4>Considerações:</h4>
+                    <ul>
+                         <li>
+                             Uma laminado é composto por uma ou mais lâminas. 
+                         </li>
+                         <li>
+                             Na macro-mecânica existe o interesse calcular certas propriedades como flexibilidade, rigidez, tensões, deformações, tanto globais como locais.
+                         </li>
+                         <li>
+                            Esta área possibilita o cálculo de propriedades do compósito decorrentes do empilhamento de lâminas.
+                        </li>
+                        <li>
+                            A lógica dos cálculos considerou que as lâminas teriam os mesmos materiais, alterando apenas o ângulo entre elas.
+                        </li>
+                        <li>
+                            Para compor o laminado, insira no campo de ângulos, cada lâmina separada por uma barra "/". Exemplo: 0/30/90/90/30/0.
+                        </li>
+                         <li>
+                             Para o uso da ferramenta abaixo insira os valores nas caixas. 
+                         </li>
+                         <li>
+                             Para números decimais use ponto ao invés de vírgula. 
+                         </li>
+                         <li>
+                             Para alterar algum valor bloqueado, clique duas vezes para torná-lo editável novamente.
+                         </li>
+                         <li>
+                             Os cálculos ocorrem toda vez que um valor é adicionado ou alterado.
+                         </li>
+                    </ul>
+                </div> 
+             </div>
+ 
             <div class="linha">
             
                 <div>
@@ -516,8 +736,11 @@
 
         <br><br><br>
 
-        
-
+        <div class="nota">
+            Sistema desenvolvido como Trabalho Final de Graduação do Aluno Alvaro Horowicz Martins do curso de Engenharia Mecânica Aeronáutica da Universidade Federal de Itajubá (UNIFEI).
+            Última atualização em 18/07/2021 às 18:28.
+           
+        </div>
     
     <script src='exibicao.js'></script>
 

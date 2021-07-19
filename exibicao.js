@@ -116,6 +116,15 @@ function mudarFundoCalculado(item, flag){
     }
 }
 
+function postarValor (oque,onde){
+    let pai = document.getElementById(onde);
+    oque.forEach(conteudo => {
+        let elemento = document.createElement("div");
+        elemento.innerHTML=conteudo;
+        pai.appendChild(elemento);
+    });
+   
+}
 
 
 /*

@@ -361,6 +361,8 @@ function calcular_E2HT(){
 
 function calcularMicroMecanica(){
     estadoAlterado=false;
+    for(i=0; i<2; i++){
+        
     calcular_vf();
     calcular_vm();
     calcular_vv();
@@ -389,63 +391,10 @@ function calcularMicroMecanica(){
     calcular_G12HT();
     calcular_etaE();
     calcular_E2HT();
-
-
-
-
-    calcular_vf();
-    calcular_vm();
-    calcular_vv();
-    calcular_rhoC();
-    calcular_mf();
-    calcular_mm();
-    calcular_Mf();
-    calcular_Mm();
-    calcular_Vc();
-    calcular_Vf();
-    calcular_Vm();
-    calcular_Vv();
-    calcular_E1();
-    calcular_E2();
-    calcular_Ff();
-    calcular_Fc();
-    calcular_Ff_Fc();
-    calcular_nu12();
-    calcular_nu21();
-    calcular_Gm();
-    calcular_Gf();
-    calcular_G12();
-    calcular_etaCisalhamento();
-    calcular_G12HT();
-    calcular_etaE();
-    calcular_E2HT();
-
-    /*
-    propriedades = {
-        "&rho;<sub>c</sub> &nbsp;&nbsp;&nbsp;&nbsp;    [kg/m³]":props.rhoC.valor, 
-        "m<sub>f</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [%]":(props.mf.valor*100).toFixed(3), 
-        "m<sub>m</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [%]":(props.mm.valor*100).toFixed(3), 
-        "v<sub>f</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [%]":(props.vf.valor*100).toFixed(3), 
-        "v<sub>m</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [%]":(props.vm.valor*100).toFixed(3), 
-        "v<sub>v</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [%]":(props.vv.valor*100).toFixed(3), 
-        "V<sub>c</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [m³]":props.Vc.valor.toExponential(3), 
-        "V<sub>f</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [m³]":props.Vf.valor.toExponential(3), 
-        "V<sub>m</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [m³]":props.Vm.valor.toExponential(3), 
-        "V<sub>v</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [m³]":(parseFloat(props.Vv.valor)).toExponential(3), 
-        "M<sub>f</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [kg]":props.Mf.valor.toFixed(3), 
-        "M<sub>m</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [kg]":props.Mm.valor.toFixed(3),
-        "E<sub>1</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.E1.valor.toFixed(3),
-        "E<sub>2</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.E2.valor.toFixed(3),
-        "E<sub>2</sub> Halpin-Tsai &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.E2HT.valor.toFixed(3),
-        "&nu;<sub>12</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.nu12.valor.toFixed(3),
-        "&nu;<sub>21</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.nu21.valor.toFixed(3),
-        "G<sub>12</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.G12.valor.toFixed(3),
-        "G<sub>12</sub> Halpin-Tsai &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.G12HT.valor.toFixed(3),
-        "F<sub>F</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.Ff.valor.toFixed(3),
-        "F<sub>C</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.Fc.valor.toFixed(3),
-        "F<sub>F</sub>/F<sub>c</sub> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GPa]":props.Ff_Fc.valor.toFixed(3)
-    };
-    */
+    calcularTensaoUltima();
+    //calcularDefUlt();
+    calcularResistenciaCompressiva();
+    }
 
     return estadoAlterado;
 }
@@ -453,6 +402,442 @@ function calcularMicroMecanica(){
 
 //#endregion
 
+//#region CALCULO DE FALHAS DE LAMINAS UNIDIRECIONAIS
+
+function determinandoTensoesMaximas(matrizesLamina){
+    limparElemento("resultadosFalha");
+
+    let sigma1TultF = props.sigma1TultF.valor;
+    let sigma1CultF = props.sigma1CultF.valor;
+
+    let sigma2TultF = props.sigma2TultF.valor;
+    let sigma2CultF = props.sigma2CultF.valor;
+
+    let tau12UltF = props.tau12UltF.valor;
+
+    let sigma1 = matrizesLamina[1].σ12[0][0];
+    let sigma2 = matrizesLamina[1].σ12[1][0];
+    let tau12 = matrizesLamina[1].σ12[2][0];
+
+    let sigmaX = document.getElementById("sigmaX").value;
+    let sigmaY = document.getElementById("sigmaY").value;
+    let tauXY = document.getElementById("tauXY").value;
+    if(sigmaX.endsWith("S") && sigmaY.endsWith("S") && tauXY.endsWith("S")){
+        if(naoNulos([sigma1TultF,sigma1CultF,sigma2TultF,sigma2CultF,tau12UltF,sigma1,sigma2,tau12])){
+            let resposta = [];
+
+            sigma1TultF *= 1e6;
+            sigma1CultF *= 1e6;
+            sigma2TultF *= 1e6;
+            sigma2CultF *= 1e6;
+            tau12UltF *= 1e6;
+            sigma1 *= 1e0;
+            sigma2 *= 1e0;
+            tau12 *= 1e0;
+        
+            let sigma1TultF2 = sigma1TultF/sigma1;
+            let sigma1CultF2 = -sigma1CultF/sigma1;
+            let maiorSigma1Ult = math.max(sigma1TultF2,sigma1CultF2);
+
+            let sigma2TultF2 = sigma2TultF/sigma2;
+            let sigma2CultF2 = -sigma2CultF/sigma2;
+            let maiorSigma2Ult =  math.max(sigma2TultF2,sigma2CultF2);
+
+            let tau12UltF2Menos = -tau12UltF/tau12;
+            let tau12UltF2Mais = tau12UltF/tau12;
+            let maiorTau12Ult = math.max(tau12UltF2Menos,tau12UltF2Mais);
+
+            
+            //Esse seria o valor de S. No exemplo onde sigmaX = 2S, sigmaY = -3S...
+            let menorValor = math.min(maiorSigma1Ult,maiorSigma2Ult,maiorTau12Ult);
+            tensaoS1 = menorValor;
+            resposta.push(`S = ${menorValor.toFixed(3)} (Teoria de falha da máxima tensão)`);
+            //RESPOSTA SOBRE QUAL É O VALOR MÁXIMO DAS TENSÕES EM X E Y
+            tensoesMaximasParaFalha1 = math.multiply(menorValor,matrizesLamina[1].σxy);
+
+            ////////////////////////////////////////////////
+            //TSAI-HILL:
+            let tsaiHill = (1/((sigma1/sigma1TultF)**2 - (sigma1*sigma2/sigma1TultF**2) + (sigma2/sigma2TultF)**2 + (tau12/tau12UltF)**2))**(1/2);
+            //tensaoS2 = tsaiHill;
+            //tensoesMaximasParaFalha2 = math.multiply(tsaiHill,matrizesLamina[1].σxy);
+            resposta.push(`S = ${tsaiHill.toFixed(3)} (Teoria de falha de Tsai-Hill)`);
+            
+            ////////////////////////////////////////////////
+            //TSAI-HILL MODIFICADO:
+
+            let X1="";
+            let X2="";
+            let Y ="";
+            
+            (sigma1>0) && (X1=sigma1TultF);
+            (sigma1<0) && (X1=sigma1CultF);
+            
+            (sigma2>0) && (X2=sigma1TultF);
+            (sigma2<0) && (X2=sigma1CultF);
+            
+            (sigma2>0) && (Y=sigma2TultF);
+            (sigma2<0) && (Y=sigma2CultF);
+
+            let S = tau12UltF;
+            let tsaiHillModificada = (1/((sigma1/X1)**2 - ((sigma1/X2)*(sigma2/X2)) + (sigma2/Y)**2 + (tau12/S)**2))**(1/2);
+            //tensoesMaximasParaFalha3 = math.multiply(tsaiHillModificada,matrizesLamina[1].σxy);
+            resposta.push(`S = ${tsaiHillModificada.toFixed(3)} (Teoria de falha de Tsai-Hill Modificada)`);
+
+        
+            ////////////////////////////////////////////////
+            //TSAI-WU:
+            //FALTA IMPLEMENTAR... VAI TER BÁSKARA?
+
+            //-b+(b**2-4*a*c)**(1/2)/2*a
+            //-b-(b**2-4*a*c)**(1/2)/2*a
+
+
+            let H1 = 1/sigma1TultF - 1/sigma1CultF;
+            let H11 = 1/(sigma1TultF*sigma1CultF);
+            let H2 = 1/sigma2TultF - 1/sigma2CultF;
+            let H22 = 1/(sigma2TultF*sigma2CultF);
+            let H6=0;
+            let H66 = 1/tau12UltF**2;
+
+            let H12TH = -1/(2*sigma1TultF**2); //H12 de Tsai-Hill
+            let H12H = -1/(2*sigma1TultF*sigma1CultF); //H12 de Hoffman
+            let H12MH = -1/2*(1/(sigma1TultF*sigma1CultF*sigma2TultF*sigma2CultF))**(1/2); //H12 de Mises-Hencky
+            //                                      B                                                      A                                    C=-1
+            //                      (VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV)  (VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV)
+            let tsaiWu_H12TsaiHill = H1*sigma1 + H2*sigma2 + H6*tau12 + H11*sigma1**2 + H22*sigma2**2 + H66*tau12**2 + 2*H12TH*sigma1*sigma2;
+            let termoB = (H1*sigma1 + H2*sigma2 + H6*tau12);
+            let termoA = (H12) => (H11*sigma1**2 + H22*sigma2**2 + H66*tau12**2 + 2*H12*sigma1*sigma2);
+            let termoC = -1;
+
+            let raizPositivaH12TH = -termoB+(termoB**2-4*termoA(H12TH)*termoC)**(1/2)/(2*termoA(H12TH));
+            let raizPositivaH12H = -termoB+(termoB**2-4*termoA(H12H)*termoC)**(1/2)/(2*termoA(H12H));
+            let raizPositivaH12MH = -termoB+(termoB**2-4*termoA(H12MH)*termoC)**(1/2)/(2*termoA(H12MH));
+
+            resposta.push(`S = ${raizPositivaH12TH.toFixed(3)} (Teoria de falha de Tsai-Wu com H<sub>12</sub> de Tsai-Hill)`);
+            resposta.push(`S = ${raizPositivaH12H.toFixed(3)} (Teoria de falha de Tsai-Wu com H<sub>12</sub> pelo critério de Hoffman)`);
+            resposta.push(`S = ${raizPositivaH12MH.toFixed(3)} (Teoria de falha de Tsai-Wu com H<sub>12</sub> pelo critério de Mises-Hencky (padrão))`);
+
+            postarValor(resposta,"resultadosFalha");
+
+            let termoAH12TH =termoA(H12TH) ;
+            let termoBH12H =termoA(H12H) ;
+            let termoCH12MH =termoA(H12MH) ;
+
+            let raizNegativaH12TH = -termoB-(termoB**2-4*termoA(H12TH)*termoC)**(1/2)/(2*termoA(H12TH));
+            let raizNegativaH12H = -termoB-(termoB**2-4*termoA(H12H)*termoC)**(1/2)/(2*termoA(H12H));
+            let raizNegativaH12MH = -termoB-(termoB**2-4*termoA(H12MH)*termoC)**(1/2)/(2*termoA(H12MH));
+
+            
+            let ABC=123;
+
+            
+
+
+            }
+    } else{ //Ou seja não se deseja descobrir o valor da tensão "S", mas sim se as tensões aplicadas falham ou não o compósito
+
+        teoriaFalhaMaximaTensao();
+
+        function teoriaFalhaMaximaTensao(){
+
+            sigma1TultF*=1e6;
+            sigma1CultF*=1e6;
+            tau12UltF*=1e6;
+
+            let resposta = [];
+            if(sigma1 > sigma1TultF || sigma1<sigma1CultF){
+                (sigma1 > sigma1TultF) && (resposta.push(`σ<sub>1</sub> > (σ<span class="supsub"><sup>T</sup><sub>1</sub></span>)<sub>ult</sub>  `));
+                (sigma1 < sigma1CultF) && (resposta.push(`σ<sub>1</sub> > (σ<span class="supsub"><sup>C</sup><sub>1</sub></span>)<sub>ult</sub>  `));
+            }
+            if(sigma2 > sigma2TultF || sigma2<sigma2CultF){
+                (sigma2 > sigma2TultF) && (resposta.push(`σ<sub>2</sub> > (σ<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub>  `));
+                (sigma2 < sigma2CultF) && (resposta.push(`σ<sub>2</sub> > (σ<span class="supsub"><sup>C</sup><sub>2</sub></span>)<sub>ult</sub>  `));            }
+            if(tau12 > tau12UltF || tau12<-tau12UltF){
+
+                (tau12 > tau12UltF) && (resposta.push(`τ<sub>12</sub> > (τ<sub>12</sub>)<sub>ult</sub>`));
+                (tau12 < -tau12UltF) && (resposta.push(`τ<sub>12</sub> < -(τ<sub>12</sub>)<sub>ult</sub>`));            
+            }
+
+            postarValor(resposta,"resultadosFalha");
+
+         
+                
+        }
+    }
+
+   
+
+
+
+
+
+}
+
+
+
+function teoriaFalhaMaximaDeformacao(){
+    if(epsilon1 > epsilon1Tult || epsilon1<epsilon1Cult){
+        //FALHOU!
+    }
+    if(epsilon2 > epsilon2Tult || epsilon2<epsilon2Cult){
+        //FALHOU!
+    }
+    if(gama12 > gama12Ult || gama12<-gama12Ult){
+        //FALHOU!
+    }
+}
+
+function teoriaFalhaTsaiHill(){
+    
+
+    let tsaiHill = (sigma1/sigma1Tult)**2 - (sigma1*sigma2/sigma1Tult**2) + (sigma2/sigma2Tult)**2 + (tau12/tau12Ult)**2;
+    if(tsaiHill>=1){
+        //FALHOU!
+    }
+
+}
+
+function teoriaFalhaModificadaTsaiHill(){
+    let X1="";
+    let X2="";
+    let Y ="";
+    
+    (sigma1>0) && (X1=sigma1Tult);
+    (sigma1<0) && (X1=sigma1Cult);
+    
+    (sigma2>0) && (X2=sigma1Tult);
+    (sigma2<0) && (X2=sigma1Cult);
+    
+    (sigma2>0) && (Y=sigma2Tult);
+    (sigma2<0) && (Y=sigma2Cult);
+
+    let S = tau12Ult;
+
+    let tsaiHillModificada = (sigma1/X1)**2 - ((sigma1/X2)*(sigma2/X2)) + (sigma2/Y)**2 + (tau12/S)**2;
+
+    if(tsaiHillModificada >=1 ){
+        //FALHOU
+    }
+}
+
+function teoriaFalhaTsaiWu(){
+    let H1 = 1/sigma1Tult - 1/sigma1Cult;
+    let H11 = 1/(sigma1Tult*sigma1Cult);
+    let H2 = 1/sigma2Tult - 1/sigma2Cult;
+    let H22 = 1/(sigma2Tult*sigma2Cult);
+    let H6=0;
+    let H66 = 1/tau12Ult**2;
+
+    let H12TH = -1/(2*sigma1Tult**2);
+    let H12H = -1/(2*sigma1Tult*sigma1Cult);
+    let H12MH = -1/2*(1/(sigma1Tult*sigma1Cult*sigma2Tult*sigma2Cult))**(1/2);
+
+    let tsaiWu_H12TsaiHill = H1*sigma1 + H2*sigma2 + H6*tau12 + H11*sigma1**2 + H22*sigma2**2 + H66*tau12**2 + 2*H12TH*sigma1*sigma2;
+
+    let tsaiWu_H12Hoffman = H1*sigma1 + H2*sigma2 + H6*tau12 + H11*sigma1**2 + H22*sigma2**2 + H66*tau12**2 + 2*H12H*sigma1*sigma2;
+    
+    let tsaiWu_H12MisesHencky = H1*sigma1 + H2*sigma2 + H6*tau12 + H11*sigma1**2 + H22*sigma2**2 + H66*tau12**2 + 2*H12MH*sigma1*sigma2;
+
+    if(tsaiWu_H12TsaiHill>=1){
+        //Falhou por Tsai Wu com H12 seguindo a teoria de Tsai-Hill
+    }
+    if(tsaiWu_H12Hoffman>=1){
+        //Falhou por Tsai Wu com H12 seguindo o critério de Hoffman
+    }
+    if(tsaiWu_H12MisesHencky>=1){
+        //Falhou por Tsai Wu com H12 seguindo o critério de Mises-Hencky
+    }
+    
+}
+
+
+
+
+//#endregion
+
+//#region CALCULO DE RESISTENCIAS ULTIMAS
+function calcularResistenciaCompressiva(){
+    let vf = props.vf.valor;
+    (naoNulos([vf])) && (vf=vf/100);
+
+    let vm = props.vm.valor;
+    (naoNulos([vm])) && (vm=vm/100);
+
+    let d_s = (4*(vf)/Math.PI)**(1/2);
+
+    let sigmaMult = props.sigmaMTult.valor;
+    (naoNulos([sigmaMult])) && (sigmaMult=sigmaMult*1e6);
+
+    let sigmaMCult = props.sigmaMCult.valor;
+    (naoNulos([sigmaMCult])) && (sigmaMCult=sigmaMCult*1e6);
+
+    let Em = props.Em.valor;
+    (naoNulos([Em])) && (Em=Em*1e9);
+
+    let Ef = props.Ef.valor;
+    (naoNulos([Ef])) && (Ef=Ef*1e9);
+
+    let E1 = props.E1.valor;
+    (naoNulos([E1])) && (E1=E1*1e9);
+
+    let E2 = props.E2.valor;
+    (naoNulos([E2])) && (E2=E2*1e9);
+
+    let nu12 = props.nu12.valor;
+    let Gm = props.Gm.valor;
+    (naoNulos([Gm])) && (Gm=Gm*1e9);
+
+    let G12 = props.G12.valor;
+    (naoNulos([G12])) && (G12=G12*1e9);
+
+    let Gf = props.Gf.valor; 
+    (naoNulos([Gf])) && (Gf=Gf*1e9);
+
+    //(naoNulos([G12])) && (G12=g12*1e9);
+
+    let tauFult = props.tauFult.valor;
+    (naoNulos([tauFult])) && (tauFult=tauFult*1e6);
+
+    let tauMult = props.tauMult.valor;
+    (naoNulos([tauMult])) && (tauMult=tauMult*1e6);
+
+
+    let epsilonMult = "";
+    let menorEpsilon2Tult = "";
+    let S1C="";
+    let S2C="";
+    let epsilonC_m="";
+
+
+
+    if(naoNulos([sigmaMult,Em])){
+        //sigmaMult=sigmaMult*1e6;
+        //Em=Em*1e9;
+        epsilonMult = sigmaMult/Em; // RESULTADO (em)ult=0.2117*10^-1
+        armazenarEmProps("epsilonMult",epsilonMult);
+    };
+
+    if(naoNulos([epsilonMult, d_s, Em,Ef,vf])){
+        //vf=vf/100;
+        //Ef=Ef*1e9;
+        //Em=Em*1e9;
+        let epsilon2Tult = [epsilonMult*(d_s*(Em/Ef-1)+1),epsilonMult*(1-vf**(1/3))];
+        
+        menorEpsilon2Tult = math.min(epsilon2Tult);
+        armazenarEmProps("menorEpsilonTransvUlt",menorEpsilon2Tult);
+    }
+    
+    if(naoNulos([E1,menorEpsilon2Tult,nu12])){
+        //E1=E1*1e9;
+        let sigma1Cult = E1*menorEpsilon2Tult/nu12; //RESULTADO SIGMA1CULT
+        armazenarEmProps("modo1",sigma1Cult);
+    }
+
+    if(naoNulos([vf,Em,Ef])){
+        //vf=vf/100;
+        //Ef=Ef*1e9;
+        //Em=Em*1e9;
+        S1C = 2*(vf+(1-vf)*Em/Ef)*(vf*Em*Ef/(3*(1-vf)))**(1/2); //resultado S1C
+    }
+    
+    if(naoNulos([Gm,Vf])){
+        //vf=vf/100;
+        //Gm=Gm*1e9;
+        S2C = Gm/(1-vf);
+        armazenarEmProps("modo2",S2C);
+    }
+    /*
+    if(naoNulos([S1C,S2C])){
+        let menorTensao1Cult = math.min([S1C,S2C]); 
+    }
+    */
+    if(naoNulos([tauFult,vf,tauMult,vm])){
+        //vf=vf/100;
+        //vm=vm/100;
+        //tauFult=tauFult*1e9;
+        //tauMult=tauMult*1e9;
+        let sigma1Cult_2 = 2*(tauFult*vf+tauMult*vm); // Resultado levemente diferente do exemplo usado no livro, mas os calculos indicam estar corretos.
+        armazenarEmProps("modo3",sigma1Cult_2);
+    }
+
+    if(naoNulos([sigmaMCult,Em])){
+        //Em=Em*1e9;
+        epsilonC_m=sigmaMCult/Em;
+        armazenarEmProps("epsilonMC",epsilonC_m);
+
+    }
+
+    if(naoNulos([d_s,Em,Ef,E2,epsilonC_m])){
+        //Em=Em*1e9;
+        //Ef=Ef*1e9;
+
+        let epsilon2C = (d_s*Em/Ef + (1-d_s))*epsilonC_m;
+        let sigma2Cult=E2*epsilon2C;
+        armazenarEmProps("sigma2Cult",sigma2Cult);
+    }
+
+    //let tau12Ult = G12*gama12Ult;
+    if(naoNulos([G12,d_s,Gm,Gf,tauMult])){
+        //Gm=Gm*1e9;
+        //Gf=Gf*1e9;
+
+        let gama12Ult = tauMult/Gm;
+        let tau12Ult = G12*(d_s*Gm/Gf+(1-d_s))*gama12Ult; 
+        armazenarEmProps("tau12ult", tau12Ult);
+    };
+      
+  
+
+
+
+}
+
+function calcularTensaoUltima(){
+    let Ef = props.Ef.valor;
+    let sigmaFult = props.sigmaFTult.valor;
+    let Em = props.Em.valor;
+    let sigmaMult = props.sigmaMTult.valor;
+    let vf = props.vf.valor;
+
+    if (naoNulos([Ef,sigmaFult,Em,sigmaMult, vf])){
+        Ef=Ef*1e9;
+        sigmaFult=sigmaFult*1e9;
+        Em=Em*1e9;
+        sigmaMult=sigmaMult*1e9;
+        vf=vf/100;
+
+        let epsilonFult = sigmaFult/Ef;
+        let epsilonMult = sigmaMult/Em;
+        let sigma1Tult = sigmaFult*vf + epsilonFult*Em*(1-vf);
+        armazenarEmProps("sigma1Tult",sigma1Tult);
+    }
+
+    let E2 = props.E2.valor;
+    let menorEpsilonTransvUlt = props.menorEpsilonTransvUlt.valor;
+    if(naoNulos([E2,menorEpsilonTransvUlt])){
+        let sigma2Tult = E2*menorEpsilonTransvUlt;
+        armazenarEmProps("sigma2Tult",sigma2Tult);
+    }
+
+
+}
+/*
+function calcularDefUlt(){
+    let vf = props.vf.valor;
+    let sigmaMult = props.sigmaMTult.valor;
+    let Em = props.Em.valor;
+    if(naoNulos([vf,sigmaMult,Em])){
+        vf=vf/100;
+        //let d_s = (4*vf/Math.PI)**(1/2);
+        sigmaMult=sigmaMult*1e6;
+        Em=Em*1e9;
+        let epsilonMult = sigmaMult/Em;
+        armazenarEmProps("sigma1Tult",sigma1Tult);
+
+    }
+} 
+*/
+//#endregion
 
 
 function calcularMacroMecanicaLamina(){
@@ -468,10 +853,14 @@ function calcularMacroMecanicaLamina(){
     let G12 = props.G12Macro.valor;
     
     if(naoNulos([sigmaX,sigmaY,tauXY,E1,E2,nu12,G12])){
-            matrizes = calcularMatrizesLaminado(sigmaX,sigmaY,tauXY, "MPa", angulo,E1,E2,nu12,G12, "GPa");
+            var matrizesLamina = calcularMatrizesLaminado(sigmaX,sigmaY,tauXY, "MPa", angulo,E1,E2,nu12,G12, "GPa");
             limparElemento("lamina");
-            exibirCalculosMacros(matrizes,"","lamina");
+            exibirCalculosMacros(matrizesLamina,"","lamina");
+            determinandoTensoesMaximas(matrizesLamina);
+
     }
+
+
 }
 
 function calcularMacroMecanicaLaminado(){
@@ -484,7 +873,7 @@ function calcularMacroMecanicaLaminado(){
     let laminas=[];
     let angulos = props.angulos.valor.split("/").map(Number);
     desenharLaminas();
-    let espessuraLamina = props.espessura.valor*10e-3;
+    let espessuraLamina = props.espessura.valor*1e-3;
 
     if(angulos.length!=0 && naoNulos([espessuraLamina])){
         let espessuraTotal = espessuraLamina*angulos.length;
@@ -522,8 +911,6 @@ function calcularMacroMecanicaLaminado(){
             D = math.add(D,math.multiply(matrizes[1].Qxy,(valorInferior**3-valorSuperior**3)/3));
             exibirCalculosMacros(matrizes,l,"laminado");
         }
-        teste=dadosLaminado;
-        
         var objetoABD = ["",{"A":A,"B":B,"D":D}];
 
 
@@ -601,9 +988,9 @@ function calcularMacroMecanicaLaminado(){
 
 function valorEngenharia(unidade){
     switch(unidade){
-        case "GPa": return 10e9;
-        case "MPa": return 10e6;
-        case "kPa": return 10e3;
+        case "GPa": return 1e9;
+        case "MPa": return 1e6;
+        case "kPa": return 1e3;
     }
 }
 
