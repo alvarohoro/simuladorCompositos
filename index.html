@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Simulador de compósitos</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='math.js'></script>
     <script src='calculos.js'></script>
@@ -25,7 +25,7 @@
             <h3 class="item ">Micro-mecânica</h3>
 
         </div>
-        <div id="conteudoMicro" class="esconder">
+        <div id="conteudoMicro" class="conteudos esconder">
 
             <div class="linha">
 
@@ -53,6 +53,9 @@
              </div>
 
              <div class="linha">
+                <div class="descricao item">
+                    <span></span>
+                </div>
                 <div class="reforco tit item"><br></div>
                 <div class="matriz tit item"></div>
                 <div class="vazio tit item"></div>    
@@ -61,303 +64,556 @@
             </div>
              
             <div class="linha">
-                <div class="reforco tit item">Fase de Reforço (Fibra)</div>
-                <div class="matriz tit item">Fase de Matriz</div>
+                <div class="descricao item">
+                    <span></span>
+                </div>
+                <div class="reforco tit item">Reforço (Fibra)</div>
+                <div class="matriz tit item">Matriz</div>
                 <div class="vazio tit item">Vazios</div>    
                 <div class="composito tit item">Compósito</div>    
     
             </div>
             <div class="linha">
-                
+                <div class="descricao item">
+                    <span></span>
+                </div>
                 <div class="reforco tit item">&downarrow;</div>
                 <div class="matriz tit item">&downarrow;</div>
                 <div class="vazio tit item">&downarrow;</div>   
                 <div class="composito tit item">&downarrow;</div>   
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Fração de volume [%]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="vf">Fração de volume da fibra (vf) [%]:</label>
-                    <input type="text" id="vf" placeholder="Ex.: 70">
+                    <div>
+                        <label for="vf">vf</label>
+                        <input type="text" id="vf" unidade="%" placeholder="Ex.: 70">
+                    </div>
+                   
                 </div>
                 <div class="matriz item">
-                    <label for="vm">Fração de volume da matriz (vm) [%]:</label>
-                    <input type="text" id="vm" placeholder="Ex.: 30">
+                    <div>
+                        <label for="vm">vm</label>
+                        <input type="text" id="vm" unidade="%" placeholder="Ex.: 30">
+                    </div>
                 </div>
                 <div class="vazio item">
-    
-                    <label for="vv">Fração de volume de vazios (vv) [%]:</label>
-                    <input type="text" id="vv" placeholder="Ex.: 0">
+                    <div>
+                        <label for="vv">vv</label>
+                        <input type="text" id="vv" unidade="%" placeholder="Ex.: 0">
+                    </div>
+                    
                 </div>
                 <div class="composito tit item"></div>    
     
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Volume [m³]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="vf">Volume da fibra (Vf) [m³]:</label>
-                    <input type="text" id="Vf" placeholder="Ex.: 70">
+                    <div>
+                        <label for="Vf">Vf</label>
+                        <input type="text" id="Vf" placeholder="Ex.: 70">
+                    </div>
                 </div>
                 <div class="matriz item">
-                    <label for="Vm">Volume da matriz (Vm) [m³]:</label>
-                    <input type="text" id="Vm" placeholder="Ex.: 30">
+                    <div>
+                        <label for="Vm">Vm</label>
+                        <input type="text" id="Vm" placeholder="Ex.: 30"> 
+                    </div>
+                    
                 </div>
                 <div class="vazio item">
-                    <label for="Vv">Volume de vazios (Vv) [m³]:</label>
-                    <input type="text" id="Vv" placeholder="Ex.: 0">
+                    <div>
+                        <label for="Vv">Vv</label>
+                        <input type="text" id="Vv" placeholder="Ex.: 0">
+                    </div>
+                    
                 </div>
                 <div class="composito item">
-                    <label for="Larg">Volume [m³]: [m x m x m]</label>
-                    <div class="grupo">
+                    <span>Volume [m³]: [m x m x m]</span>
+                    <div>
+                        <label for="larg">Larg.</label>
+                        <input type="text" id="larg" placeholder="Ex.: 1e-3">
+
+                    </div>
+                    <div>
+                        <label for="prof">Prof.</label>
+                        <input type="text" id="prof" placeholder="Ex.: 1e-3">
+
+                    </div>
+                    <div>
+                        <label for="esp">Esp.</label>
+                        <input type="text" id="esp" placeholder="Ex.: 1e-3">
+
+                    </div>
+
+                    <!-- <div class="grupo">
                         <input type="text" id="larg" placeholder="Ex.: 1e-3">
                         <input type="text" id="prof" placeholder="Ex.: 2e-6">
                         <input type="text" id="esp" placeholder="Ex.: 1e-2">
+                    </div> -->
+
+                    <div>
+                        <label for="Vc">Vc</label>
+                        <input type="text" id="Vc" placeholder="Ex.: 0">
                     </div>
-                    <label for="Vc">Volume do Compósito (Vc) [m³]:</label>
-                    <input type="text" id="Vc" placeholder="Ex.: 0">
+                   
                 </div>
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Fração de Massa [%]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="mf">Fração de Massa das fibras (mf) [%]:</label>
-                    <input type="text" id="mf" placeholder="Ex.: 80">
+                    <div>
+                        <label for="mf">mf</label>
+                        <input type="text" id="mf" unidade="%" placeholder="Ex.: 80">
+                    </div>
+                    
                 </div>
                 <div class="matriz item">
-                    <label for="mm">Fração de Massa da matriz (mm) [%]:</label>
-                    <input type="text" id="mm" placeholder="Ex.: 20">
+                    <div>
+                        <label for="mm">mm</label>
+                        <input type="text" id="mm" unidade="%" placeholder="Ex.: 20">
+                    </div>
+                    
                 </div>            
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="mc">Fração de Massa do Laminado (Mc) [%]:</label>
-                    <input type="text" id="mc" placeholder="Ex.: 4">
+                    
+                    
                 </div> 
         
             </div>    
             <div class="linha">
+                <div class="descricao item">
+                    <span>Massa [kg]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="Mf">Massa das fibras (Mf) [kg]:</label>
-                    <input type="text" id="Mf" placeholder="Ex.: 0.05">
+                    <div>
+                        <label for="Mf">Mf</label>
+                        <input type="text" id="Mf" placeholder="Ex.: 0.05">
+                    </div>
+                    
                 </div>
                 <div class="matriz item">
-                    <label for="Mm">Massa da matriz (Mm) [kg]:</label>
-                    <input type="text" id="Mm" placeholder="Ex.: 0.05">
-                </div>        <div class="vazio item"></div>
+                    <div>
+                        <label for="Mm">Mm</label>
+                        <input type="text" id="Mm" placeholder="Ex.: 0.05">
+                    </div>
+                    
+                </div>        
+                <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="Mc">Massa do Laminado (Mc) [kg]:</label>
-                    <input type="text" id="Mc" placeholder="Ex.: 4">
+                    <div>
+                        <label for="Mc">Mc</label>
+                        <input type="text" id="Mc" placeholder="Ex.: 4">
+                    </div>
+                    
                 </div> 
     
             </div>             
             <div class="linha">
+                <div class="descricao item">
+                    <span>Massa específica [kg/m³]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="rhof">Massa Específica da Fibra (&rho;f) [kg/m³]:</label>
-                    <input type="text" id="rhof" placeholder="Ex.: 2500">
+                    <div>
+                        <label for="rhof">&rho;f</label>
+                        <input type="text" unidade="kg/m³" id="rhof" placeholder="Ex.: 2500">
+                    </div>
+                    
                 </div>
                 <div class="matriz item">
-                    <label for="rhom">Massa Específica da Matriz (&rho;f) [kg/m³]:</label>
-                    <input type="text" id="rhom" placeholder="Ex.: 1200">
+                    <div>
+                        <label for="rhom">&rho;m</label>
+                        <input type="text" unidade="kg/m³"  id="rhom" placeholder="Ex.: 1200">
+                    </div>
+                    
                 </div>
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="rhoC">Massa Específica do Compósito (&rho;f) [kg/m³]:</label>
-                    <input type="text" id="rhoC" placeholder="Ex.: 1200">
+                    <div>
+                        <label for="rhoC">&rho;c</label>
+                        <input type="text" unidade="kg/m³"  id="rhoC" placeholder="Ex.: 1200">
+                    </div>
+                    
                 </div>  
     
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Módulo de Elasticidade [GPa]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="Ef">Módulo de Elasticidade das fibras (Ef) [GPa]:</label>
-                    <input type="text" id="Ef" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Ef">Ef</label>
+                        <input type="text" id="Ef" placeholder="Ex.: 52">
+                    </div>
+                    <div>
+                        <label for="Ef2">Ef2</label>
+                        <input type="text" id="Ef2" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>
                 <div class="matriz item">
-                    <label for="Em">Módulo de Elasticidade da matriz (Em) [GPa]:</label>
-                    <input type="text" id="Em" placeholder="Ex.: 12">
+                    <div>
+                        <label for="Em">Em</label>
+                        <input type="text" id="Em" placeholder="Ex.: 12">
+                    </div>
+                    
                 </div>
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="E1">Módulo de Elasticidade na direção das fibras (E1) [GPa]:</label>
-                    <input type="text" id="E1" placeholder="Ex.: 52">
-                    <label for="E2">Módulo de Elasticidade a 90º das fibras (E2) [GPa]:</label>
-                    <input type="text" id="E2" placeholder="Ex.: 52">
+                    <div>
+                        <label for="E1">E1</label>
+                        <input type="text" id="E1" placeholder="Ex.: 52">
+                    </div>
+                   <div>
+                        <label for="E2">E2</label>
+                        <input type="text" id="E2" placeholder="Ex.: 52">
+                   </div>
+                   
                 </div>
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Carga sentida [GPa]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="Ff">Força sentida pela fibra (Ff) [??]:</label>
-                    <input type="text" id="Ff" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Ff">Ff</label>
+                        <input type="text" id="Ff" placeholder="Ex.: 52">
+                    </div>
+                   
                 </div>            
                 <div class="matriz item">
-                    <label for="Fm">Força sentida pela matriz (Fm) [??]:</label>
-                    <input type="text" id="Fm" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Fm">Fm</label>
+                        <input type="text" id="Fm" placeholder="Ex.: 52">
+                    </div>
+                   
                 </div>            
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="Fc">Força sentida pelo compósito (Fc) [??]:</label>
-                    <input type="text" id="Fc" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Fc">Fc</label>
+                        <input type="text" id="Fc" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>         
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Razão da carga sentida [%]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="Ff_Fc">Razão da força sentida pela fibra em relação ao compósito (Ff_fc) [??]:</label>
-                    <input type="text" id="Ff_Fc" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Ff_Fc">Ff/Fc</label>
+                        <input type="text" id="Ff_Fc" unidade="%" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>            
                 <div class="matriz item">
-                    <label for="Fm_Fc">Razão da força sentida pela matriz em relação ao compósito (Fm_fc) [??]:</label>
-                    <input type="text" id="Fm_Fc" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Fm_Fc">Fm/Fc</label>
+                        <input type="text" id="Fm_Fc"  unidade="%" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>            
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="Fc_Fc">Razão da força sentida pelo compósito em relação ao compósito (Fc_fc) [??]:</label>
-                    <input type="text" id="Fc_Fc" placeholder="Ex.: 52">
+                  
+                    
                 </div>         
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Módulo de Cisalhamento [GPa]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="Gf">Módulo de Elasticidade das fibras - cisalhamento (Gf) [GPa]:</label>
-                    <input type="text" id="Gf" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Gf">Gf</label>
+                        <input type="text" id="Gf" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>
                 <div class="matriz item">
-                    <label for="Gm">Módulo de Elasticidade da matriz - cisalhamento (Gf) [GPa]:</label>
-                    <input type="text" id="Gm" placeholder="Ex.: 52">
+                    <div>
+                        <label for="Gm">Gm</label>
+                        <input type="text" id="Gm" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="G12">Módulo de Elasticidade do compósito - cisalhamento 12 (G12) [GPa]:</label>
-                    <input type="text" id="G12" placeholder="Ex.: 52">
+                    <div>
+                        <label for="G12">G12</label>
+                        <input type="text" id="G12" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>
                
             </div>
             <div class="linha">
+                <div class="descricao item">
+                    <span>Coef. de Poison [u.a.]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="nuf">Coeficiente de Poison das fibras (&nu;f) [u.a.]:</label>
-                    <input type="text" id="nuf" placeholder="Ex.: 0.2">
+                    <div>
+                        <label for="nuf">&nu;f</label>
+                        <input type="text" id="nuf" placeholder="Ex.: 0.2">
+                    </div>
+                   
                 </div>
                 <div class="matriz item">
-                    <label for="num">Coeficiente de Poison da matriz (&nu;m) [u.a.]:</label>
-                    <input type="text" id="num" placeholder="Ex.: 0.3">
+                    <div>
+                        <label for="num">&nu;m</label>
+                        <input type="text" id="num" placeholder="Ex.: 0.3">
+                    </div>
+                    
                 </div>
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="nu12">Coeficiente de Poison 12 (&nu;f) [u.a.]:</label>
-                    <input type="text" id="nu12" placeholder="Ex.: 0.2">
-                    <label for="nu21">Coeficiente de Poison 21 (&nu;f) [u.a.]:</label>
-                    <input type="text" id="nu21" placeholder="Ex.: 0.2">
+                    <div>
+                        <label for="nu12">&nu;12</label>
+                        <input type="text" id="nu12" placeholder="Ex.: 0.2">
+                    </div>
+                    <div>
+                        <label for="nu21">&nu;21</label>
+                        <input type="text" id="nu21" placeholder="Ex.: 0.2">
+                    </div>
+                   
                 </div>
             </div>
+          
             <div class="linha">
-                <div class="reforco item">
-                    <label for="Ef2">Módulo de Elasticidade das fibras - transversal (Ef2) [GPa]:</label>
-                    <input type="text" id="Ef2" placeholder="Ex.: 52">
+                <div class="descricao item">
+                    <span>Halphin-Tsai - Fator de Reforço [u.a]</span>
                 </div>
-                <div class="matriz item"></div>
-                <div class="vazio item"></div>
-                <div class="composito tit item"></div>    
-    
-            </div>
-            <div class="linha">
                 <div class="reforco item">
-                    <label for="fatorReforco">Fator de Reforço de Geometria da Fibra (&xi;) [u.a.]:</label>
-                    <input type="text" id="fatorReforco" placeholder="Ex.: 0.3">
+                    <div>
+                        <label for="fatorReforco">&xi;</label>
+                        <input type="text" id="fatorReforco" placeholder="Ex.: 0.3">
+                    </div>
                 </div>
+
                 <div class="matriz item"></div>
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="etaCisalhamento">Eta de Cisalhamento [u.a.]:</label>
-                    <input type="text" id="etaCisalhamento" placeholder="Ex.: 0.3">
-    
-                    <label for="G12HT">G12 HT:</label>
-                    <input type="text" id="G12HT" placeholder="Ex.: 0.3">
-    
-                    <label for="etaE">eta E:</label>
-                    <input type="text" id="etaE" placeholder="Ex.: 0.3">
-    
-                    <label for="E2HT">E2 Halphin-Tsai:</label>
-                    <input type="text" id="E2HT" placeholder="Ex.: 0.3">
+                    <div>
+                        <label for="etaCisalhamento">&eta;V</label>
+                        <input type="text" id="etaCisalhamento" placeholder="Ex.: 0.3">
+                        
+                    </div>
+                    <div>
+                        <label for="etaE">&eta;E</label>
+                        <input type="text" id="etaE" placeholder="Ex.: 0.3">
+        
+                    </div>
+                  
                 </div>    
     
             </div>
 
-
-
-            
             <div class="linha">
+                <div class="descricao item">
+                    <span>Halphin-Tsai - Módulo de Cisalhamento [GPa]</span>
+                </div>
+                <div class="reforco item"></div>
+                <div class="matriz item"></div>
+                <div class="vazio item"></div>
+                <div class="composito item">
+                    <div>
+                        <label for="G12HT">G12</label>
+                        <input type="text" id="G12HT" placeholder="Ex.: 0.3">
+                    </div>
+                </div>    
+    
+            </div>
+
+            <div class="linha">
+                <div class="descricao item">
+                    <span>Halphin-Tsai - Módulo de Elasticidade [GPa]</span>
+                </div>
+                <div class="reforco item"></div>
+                <div class="matriz item"></div>
+                <div class="vazio item"></div>
+                <div class="composito item">
+                    <div>
+                        <label for="E2HT">E2</label>
+                        <input type="text" id="E2HT" placeholder="Ex.: 0.3">    
+                    </div>
+                </div>   
+            </div>
+
+            <div class="linha"><h4>Resistência compressiva - Fibras Circulares em montagem quadrada</h4></div>
+            <div class="linha">
+                <div class="descricao item">
+                    <span>Tensão última em tração [MPa]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="sigmaFTult">Tensão últ. das fibras em tração (&sigma;<span class="supsub"><sup>T</sup><sub>f</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="sigmaFTult" placeholder="Ex.: 52">
+                    <div>
+                        <label for="sigmaFTult">(&sigma;<span class="supsub"><sup>T</sup><sub>f</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="sigmaFTult" placeholder="Ex.: 52">  
+                    </div>
                 </div>
                 <div class="matriz item">
-                    <label for="sigmaMTult">Tensão últ. da matriz em tração (&sigma;<span class="supsub"><sup>T</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="sigmaMTult" placeholder="Ex.: 12">
+                    <div>
+                        <label for="sigmaMTult">(&sigma;<span class="supsub"><sup>T</sup><sub>m</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="sigmaMTult" placeholder="Ex.: 12">
+       
+                    </div>
                 </div>
                 <div class="vazio item"></div>
                 <div class="composito item">
-                    <label for="sigma1Tult">Tensão últ. 1 (fibras) em tração (&sigma;<span class="supsub"><sup>T</sup><sub>1</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="sigma1Tult" placeholder="Ex.: 52">
-               
-                    <label for="sigma2Tult">Tensão últ. 2 (matriz) em tração (&sigma;<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="sigma2Tult" placeholder="Ex.: 52">
-               
+                    <div>
+                        <label title="Resistência à Tração Longitudinal"for="sigma1Tult">(&sigma;<span class="supsub"><sup>T</sup><sub>1</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="sigma1Tult" placeholder="Ex.: 52">
+                    </div>
+                    <div>
+                        <label title="Resistência à Tração Transversa" for="sigma2Tult">(&sigma;<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="sigma2Tult" placeholder="Ex.: 52">
+                   
+                    </div>
+                   
                 </div>
             </div>
 
             <div class="linha">
+                <div class="descricao item">
+                    <span>Tensão Última em Compressão [MPa]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="sigmaFCult">Tensão últ. das fibras em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>f</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="sigmaFCult" placeholder="Ex.: 52">
+                    <div>
+                        <label for="sigmaFCult">(&sigma;<span class="supsub"><sup>C</sup><sub>f</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="sigmaFCult" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>
                 <div class="matriz item">
-                    <label for="sigmaMCult">Tensão últ. da matriz em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="sigmaMCult" placeholder="Ex.: 12">
+                    <div>
+                        <label for="sigmaMCult">(&sigma;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="sigmaMCult" placeholder="Ex.: 12">
+                    </div>
+                    
                 </div>
                 <div class="vazio item"></div>
                 <div class="composito item">
+                   
+                    <div>
+                        <label for="sigma2Cult">(&sigma;<span class="supsub"><sup>C</sup><sub>2</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="sigma2Cult" placeholder="Ex.: 12">
+                    </div>
+                    
 
-
-
-                    <label for="epsilonMC">Deformação da matriz em Compressão (&epsilon;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="epsilonMC" placeholder="Ex.: 12">
-
-                    <label for="sigmaMCult">Tensão últ. da matriz em compressão (&sigma;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="sigma2Cult" placeholder="Ex.: 12">
+                    
 
 
                 </div>
             </div>
 
             <div class="linha">
+                <div class="descricao item">
+                    <span>Tensão Última em Cisalhamento [MPa]</span>
+                </div>
                 <div class="reforco item">
-                    <label for="tauFult">Tensão de cisalhamento última das fibras (&tau;<sub>f</sub>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="tauFult" placeholder="Ex.: 52">
+                    <div>
+                        <label for="tauFult">(&tau;<sub>f</sub>)<sub>ult</sub></label>
+                        <input type="text" id="tauFult" placeholder="Ex.: 52">
+                    </div>
+                    
                 </div>
                 <div class="matriz item">
-                    <label for="tauMult">Tensão de cisalhamento última da matriz (&tau;<sub>m</sub>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="tauMult" placeholder="Ex.: 12">
+                    <div>
+                        <label for="tauMult">(&tau;<sub>m</sub>)<sub>ult</sub></label>
+                        <input type="text" id="tauMult" placeholder="Ex.: 12">
+                    </div>
+                    
                 </div>
                 <div class="vazio item"></div>
                 <div class="composito item">
-
-                    <label for="tau12ult">Tensão de cisalhamento última (&tau;<sub>12</sub>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="tau12ult" placeholder="Ex.: 12">
-
-
-                    <label for="epsilonMult">Deformação Última da matriz (&epsilon;<sub>m</sub>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="epsilonMult" placeholder="Ex.: 12">
+                    <div>
+                        <label for="tau12ult">(&tau;<sub>12</sub>)<sub>ult</sub></label>
+                        <input type="text" id="tau12ult" placeholder="Ex.: 12">    
+                    </div>
                     
-                    <label for="menorEpsilonTransvUlt">Menor Deforamção Última Transversal (&epsilon;<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub> [GPa]:</label>
-                    <input type="text" id="menorEpsilonTransvUlt" placeholder="Ex.: 12">
+                   
+                   
                     
-
-                    <label for="modo1">Modo 1 [Pa]:</label>
-                    <input type="text" id="modo1" placeholder="Ex.: 12">
-
-                    <label for="modo2">Modo 2 [Pa]:</label>
-                    <input type="text" id="modo2" placeholder="Ex.: 12">
-
-                    <label for="modo3">Modo 3 [Pa]:</label>
-                    <input type="text" id="modo3" placeholder="Ex.: 12">
-
                 </div>
                 
             </div>
-            -->
+            
+            <div class="linha">
+                <div class="descricao item">
+                    <span>Deformação Última [u.a.]</span>
+                </div>
+                <div class="reforco item">
+                   
+                </div>
+                <div class="matriz item">
+                    <div>
+                        <label for="epsilonMult">(&epsilon;<sub>m</sub>)<sub>ult</sub></label>
+                        <input type="text" id="epsilonMult" placeholder="Ex.: 12">
+                        
+                    </div>
+                </div>
+                <div class="vazio item"></div>
+                <div class="composito item">
+                    <div>
+                        <label for="epsilonMC">(&epsilon;<span class="supsub"><sup>C</sup><sub>m</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="epsilonMC" placeholder="Ex.: 12">
+                    </div>
+
+                    <div>
+                        <label for="menorEpsilonTransvUlt"><!--Menor Deforamção Última Transversal--><(&epsilon;<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub></label>
+                        <input type="text" id="menorEpsilonTransvUlt" placeholder="Ex.: 12">
+                        
+                    </div>
+                   
+                                   
+                </div>
+                
+            </div>
+
+            <div class="linha">
+                <div class="descricao item">
+                    <span>Modos de Falha [MPa]</span>
+                </div>
+                <div class="reforco item">
+                   
+                </div>
+                <div class="matriz item">
+                   
+                </div>
+                <div class="vazio item"></div>
+                <div class="composito item">
+                    <div>
+                        <label for="modo1">M.1</label>
+                        <input type="text" id="modo1" placeholder="Ex.: 12">
+    
+                    </div>
+                   
+                    <div>
+                        <label for="modo2">M.2</label>
+                        <input type="text" id="modo2" placeholder="Ex.: 12">
+    
+                    </div>
+                   
+                    <div>
+                        <label for="modo3">M.3</label>
+                        <input type="text" id="modo3" placeholder="Ex.: 12">
+    
+                    </div>
+                    
+                </div>
+                
+            </div>
            
 
         </div>
@@ -376,7 +632,7 @@
             <h3 class="item ">Macro-mecânica - Estudo de uma lâmina</h3>
         </div> 
         
-        <div id="conteudoMacroLamina" class="esconder">
+        <div id="conteudoMacroLamina" class="conteudos esconder">
 
             <div class="linha">
                <div class="explicacao alinharTextoEsquerda">
@@ -589,7 +845,7 @@
             <h3 class="item ">Macro-mecânica - Estudo de várias lâminas (laminado) </h3>
         </div> 
 
-        <div id="conteudoMacroLaminado" class="esconder">
+        <div id="conteudoMacroLaminado" class="conteudos esconder">
 
             
             <div class="linha">

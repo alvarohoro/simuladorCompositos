@@ -1,3 +1,4 @@
+
   body {
     /*
     background-color: rgb(32, 32, 32);
@@ -5,7 +6,7 @@
     background-size: 10px 10px, 10px 10px, 10px 5px;
     background-position: 0px 0px, 5px 5px, 0px 0px;
     */
-    background-color: #eee;
+    background-color: #efefef;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
   
@@ -18,6 +19,11 @@
     align-items: flex-start;
     flex-direction: column;
     align-content: flex-start;
+  }
+
+  .conteudos{
+    border-left: 8px solid #333;
+    border-right: 8px solid #333;
   }
 
   .configuracoesMicroMecanica input{
@@ -69,23 +75,41 @@
 
   .item{
     width: 100%;
+    min-width: 80px;
     display: flex;
     flex-direction: column;
     align-content: flex-start;
     align-items: stretch;  
   }
 
+
   .item label{
+    margin: 6px 0px 0px 3px;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    z-index: 2;
+    padding: 0 92px 0 0px;
+    color: #333;
+    cursor: pointer;
   }
   .item input{
-    padding: 5px 5px 5px 5px;
+    padding: 5px 10px 5px 30px;
     border-radius: 50px;
     border-width: 0px;
     max-width: 100px;
     margin: 5px auto 5px auto;
     text-align: center;
+    grid-row-start: 1;
+    grid-column-start: 1;
 
   }
+
+  
+
+  .item > div{
+    display: grid;
+    overflow: hidden;
+    }
   .seta{
     font-size: 30px;
     width: 0;
@@ -102,11 +126,29 @@
   }
 
   .reforco{
-    background-color: rgb(194, 194, 194);
+    /*background-color: rgb(194, 194, 194);*/
+  }
+
+  /*#conteudoMicro .linha:nth-child(n+5) {background: black; opacity: 0.8;}*/
+  #conteudoMicro .linha:nth-child(2n+5) {background-color:rgba(0, 0, 0, 0.3);}
+
+  #conteudoMicro .linha:nth-child(n+5) > div {
+    border-top:1px solid black; 
+    border-left:1px solid black;
+    display: flex;
+    justify-content: center;
+  };
+
+
+
+
+  .descricao{
+    display: flex;
+    justify-content: center;
   }
 
   .matriz{
-    background-color: rgb(255, 255, 140);
+    /*background-color: rgb(255, 255, 140);*/
 
   }
 
@@ -143,6 +185,9 @@
     color: white;
   }
 
+  .labelTravado{
+    color:white !important;
+  }
   .travado:hover{
     cursor:not-allowed;
     pointer-events: all !important;
@@ -590,11 +635,12 @@
   text-align: left;
 }
 
-.explicacao{    
-  text-align: left;
+.explicacao{       
+   text-align: left;
   background-color: greenyellow;
   width: 100%;
-  border: 8px solid #333;
+  border-bottom: 8px solid #333;
+  border-top: 8px solid #333;
 }
 
 .explicacao ul{
@@ -604,3 +650,43 @@
 .explicacao h4{
   margin-left:20px;
 }
+
+@media (max-width: 1100px) { 
+  .largura80p{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+}
+
+@media (max-width: 750px) { 
+  *{font-size: 3vw !important;}
+  body{
+    margin: 0 auto;
+  }
+  .largura80p{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  
+  .conteudos{
+    border:0;
+  }
+
+  label {display:none}
+
+  .item input{
+    margin: 0 auto;
+    padding: 0;
+    height: 100px;
+    border-radius: 0;
+    width: 100%;
+  };
+
+}
+
+
+  

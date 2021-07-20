@@ -19,8 +19,17 @@ for(let input in inputs){
 
         props[id]={"valor":valor, "unidade":unidade, status:"", travado:false, "multiplicador":multiplicador};
 
+        
+        label = document.getElementById(id).previousElementSibling;
+        if(label!=null){
+            label.addEventListener('dblclick', (event)=>{
+                //let id = event.target.id;
+                chavearTravado(id);
+            });
+        }
+        
         elemento.addEventListener('dblclick', (event)=>{
-            let id = event.target.id;
+            //let id = event.target.id;
             chavearTravado(id);
         });
         
@@ -41,17 +50,19 @@ for(let input in inputs){
             props[id].status="Digitado";
             props[id].travado=true;            
             
-            var status = (exibirResultadosMicroMecanica() || calcularMacroMecanicaLamina() || calcularMacroMecanicaLaminado());
+            var status = (exibirResultadosMicroMecanica() );
+            //var status = (exibirResultadosMicroMecanica() || calcularMacroMecanicaLamina() || calcularMacroMecanicaLaminado());
 
+            
             if (valorAntigo==="")  status = true ;
             if (status){
                 //parabéns, já fez a alteração anteriormente
             }else{
                 //desfazendo as alterações
                 chavearTravado(id);
-            props[id].valor=valorAntigo;
-            props[id].status=statusAntigo;
-            props[id].travado=travadoAntigo;    
+                props[id].valor=valorAntigo;
+                props[id].status=statusAntigo;
+                props[id].travado=travadoAntigo;    
                 atualizarValorInput(id,valorAntigo);
             }
 
@@ -59,17 +70,27 @@ for(let input in inputs){
     }
 }
 
+function travar(id){
+    let elemento = document.getElementById(id);
+    let label = elemento.previousElementSibling;
+    
+    props[id].travado=true;
+    elemento.classList.add('travado');
+    label.classList.add('labelTravado');
+    elemento.setAttribute('readonly','true');
+}
+
 function chavearTravado(id){
     let elemento = document.getElementById(id);
+    let label = elemento.previousElementSibling;
     let travado = props[id].travado;
         if (travado){
             props[id].travado=false;
             elemento.classList.remove('travado');
+            label.classList.remove('labelTravado');
             elemento.removeAttribute('readonly');
         } else{
-            props[id].travado=true;
-            elemento.classList.add('travado');
-            elemento.setAttribute('readonly','true');
+            travar(id);
         }
 }
 
@@ -107,14 +128,14 @@ function atualizarValorInput(item, valor){
 
 }
 
-function mudarFundoCalculado(item, flag){
-    var input = document.getElementById(item);
-    if(flag){
-        input.classList.add("calculado");
-    }else{
-        input.classList.remove("calculado");
-    }
-}
+// function mudarFundoCalculado(item, flag){
+//     var input = document.getElementById(item);
+//     if(flag){
+//         input.classList.add("calculado");
+//     }else{
+//         input.classList.remove("calculado");
+//     }
+// }
 
 function postarValor (oque,onde){
     let pai = document.getElementById(onde);

@@ -12,10 +12,36 @@ var estadoAlterado=false;
 
 var teste = [];
 function armazenarEmProps(item, valor){
-    Object.assign(props, {[item]:{'valor':valor, 'status':"Calculado"}});
-    atualizarValorInput(item,valor.toExponential(4));
-    mudarFundoCalculado(item, true);
-    chavearTravado(item);
+    //Object.assign(props, {[item]:{'valor':valor, 'status':"Calculado"}});
+    props[item].valor=valor;
+    props[item].status="Calculado";
+    let unidade = props[item].unidade;
+    let multiplicador = props[item].multiplicador;
+    switch (unidade) {
+        case "%":
+            atualizarValorInput(item,valor.toFixed(2));
+            break;
+        case "kg/m³":
+            atualizarValorInput(item,valor.toFixed(0));
+            break;
+        default:
+            if(Math.abs(valor)<10000 && Math.abs(valor)>0.01){
+                atualizarValorInput(item,valor.toFixed(4));
+        
+            }else if(Math.abs(valor)<1e-15){
+                atualizarValorInput(item,"≈ 0");
+
+            }
+            else{
+                let valorEngenharia = math.format(parseFloat(valor),{notation:'engineering', precision:4});
+                atualizarValorInput(item,valorEngenharia);
+            }
+            break;
+    }
+    
+    //mudarFundoCalculado(item, true);
+    travar(item);
+    //chavearTravado(item);
     estadoAlterado=true;    
 }
 //#region  MICRO-MECANICA
@@ -31,6 +57,8 @@ function naoNulos(propriedades){
     return status;
 }
 
+
+
 function calcular_vf(){
     let vm = props.vm.valor;
     let vv = props.vv.valor;
@@ -39,9 +67,9 @@ function calcular_vf(){
     let Vf = props.Vf.valor;
 
     if (naoNulos([vm,vv])){
-        //if(!props.vf.travado){
+        if(!props.vf.travado){
             armazenarEmProps("vf",100-vm-vv);
-        //}
+        }
     } else if (naoNulos([Vc,Vf])){
         armazenarEmProps("vf", Vf/Vc*100);
     }
@@ -55,9 +83,9 @@ function calcular_vm(){
     let Vc = props.Vc.valor;
     let Vm = props.Vm.valor;
     if (naoNulos([vf,vv])){
-        //if(!props.vm.travado){
+        if(!props.vm.travado){
             armazenarEmProps("vm",100-vf-vv);
-        //} 
+        } 
     } else if(naoNulos([Vc,Vm])){
         armazenarEmProps("vm", Vm/Vc*100);
 
@@ -71,9 +99,9 @@ function calcular_vv(){
     let Vc = props.Vc.valor;
     let Vv = props.Vv.valor;
     if (naoNulos([vf,vm])){
-        //if(!props.vv.travado){
+        if(!props.vv.travado){
             armazenarEmProps("vv",100-vf-vm);
-        //}
+        }
     } else if (naoNulos([Vc,Vv])){
         armazenarEmProps("Vv", Vv/Vc*100);
     }
@@ -86,7 +114,10 @@ function calcular_rhoC(){
     let rhom = props.rhom.valor;
     if (naoNulos([vf,vm,rhof,rhom])){
         //if(!props.rhoC.travado){
-            armazenarEmProps("rhoC",(vf*rhof + vm*rhom)/100);
+            vf/=100;
+            vm/=100;
+            let rhoC = (vf*rhof + vm*rhom);
+            armazenarEmProps("rhoC",rhoC);
         //}
     }
 }
@@ -98,7 +129,8 @@ function calcular_mf (){
     let rhom = props.rhom.valor;
     if (naoNulos([vf,vm,rhof,rhom])){
         //if(!props.rhoC.travado){
-            armazenarEmProps("mf",vf*rhof/(vf*rhof+rhom*vm)*100);
+            let mf=vf*rhof/(vf*rhof+rhom*vm)*100;
+            armazenarEmProps("mf",mf);
         //}
     }
     //return vf*rhof/(vf*rhof+rhom*vm); 
@@ -109,7 +141,8 @@ function calcular_mm (){
     
     if (naoNulos([mf])){
         //if(!props.rhoC.travado){
-            armazenarEmProps("mm",100-mf);
+            let mm = 100-mf;
+            armazenarEmProps("mm",mm);
         //}
     }
     //return 1-vf*rhof/(vf*rhof+rhom*(1-vf)); 
@@ -120,7 +153,8 @@ function calcular_Mf(){
     let Mc = props.Mc.valor;
     if (naoNulos([mf,Mc])){
         //if(!props.rhoC.travado){
-            armazenarEmProps("Mf",mf*Mc/100);
+            let Mf = mf*Mc/100;
+            armazenarEmProps("Mf",Mf);
         //}
     }
 }
@@ -132,10 +166,12 @@ function calcular_Mm(){
     let Mf = props.Mf.valor;
     if (naoNulos([mm,Mc])){
         //if(!props.rhoC.travado){
-            armazenarEmProps("Mm",mm*Mc/100);
+            let Mm = mm*Mc/100;
+            armazenarEmProps("Mm",Mm);
         //}
     } else if(naoNulos([Mf, Mc])){
-        armazenarEmProps("Mm",Mc-Mf);
+        let Mm = Mc-Mf;
+        armazenarEmProps("Mm",Mm);
     }
 }
 
@@ -143,18 +179,40 @@ function calcular_Vc(){
     let Mc = props.Mc.valor;
     let rhoC = props.rhoC.valor;
 
+    let Vf = props.Vf.valor;
+    let Vm = props.Vm.valor;
+    let Vv = props.Vv.valor;
+
     let larg = props.larg.valor;
     let prof = props.prof.valor;
     let esp = props.esp.valor;
 
+    let Vc="";
+
      if (naoNulos([larg, prof, esp])){
-        armazenarEmProps("Vc",larg*prof*esp);
+         Vc = larg*prof*esp;
+        armazenarEmProps("Vc",Vc);
     }
-     else if (naoNulos([Mc,rhoC])){
+    if (naoNulos([Mc,rhoC])){
         //if(!props.rhoC.travado){
-            armazenarEmProps("Vc",Mc/rhoC);
+            Vc=Mc/rhoC;
+            armazenarEmProps("Vc",Vc);
+           
+            armazenarEmProps("larg",Vc/3);
+            armazenarEmProps("prof",Vc/3);
+            armazenarEmProps("esp",Vc/3);
+
+            
         //}
-    } 
+    } else if(naoNulos([Vf,Vm,Vv])){
+        Vc=Vf+Vm+Vv;
+        armazenarEmProps("Vc",Vc);
+        
+        armazenarEmProps("larg",Vc/3);
+        armazenarEmProps("prof",Vc/3);
+        armazenarEmProps("esp",Vc/3);
+
+    }
 }
 
 function calcular_Vf(){
@@ -164,8 +222,10 @@ function calcular_Vf(){
     let rhof = props.rhof.valor;
     let Mf = props.Mf.valor;
     if(naoNulos([rhof,Mf])){
-        armazenarEmProps("Vf", Mf/rhof);
+        let Vf = Mf/rhof
+        armazenarEmProps("Vf", Vf);
     } else if (naoNulos([Vc, vf])){
+        vf/=100;
         //if(!props.rhoC.travado){
             armazenarEmProps("Vf",Vc*vf);
         //}
@@ -178,14 +238,22 @@ function calcular_Vm(){
 
     let rhom = props.rhom.valor;
     let Mm = props.Mm.valor;
+
+    let Vf = props.Vf.valor;
+    let vf = props.vf.valor;
     if(naoNulos([rhom,Mm])){
         armazenarEmProps("Vm", Mm/rhom);
     }
     else if (naoNulos([Vc, vm])){
         //if(!props.rhoC.travado){
+            vm/=100;
             armazenarEmProps("Vm",Vc*vm);
         //}
-    } 
+    } else if(naoNulos([Vf,vf,vm])){
+        //vm/=100;
+        armazenarEmProps("Vm",Vf*vm/vf);
+
+    }
 }
 
 function calcular_Vv(){
@@ -193,8 +261,13 @@ function calcular_Vv(){
     let Vf = props.Vf.valor;
     let Vm = props.Vm.valor;
 
+    let vf = props.vf.valor;
+    let vv = props.vv.valor;
     if(naoNulos([Vc,Vf,Vm])){
         armazenarEmProps("Vv", Vc-Vf-Vm);
+    }else if(naoNulos([Vf,vf,vv])){
+        armazenarEmProps("Vv",Vf*vv/vf);
+
     }
 }
 
@@ -253,7 +326,7 @@ function calcular_Ff_Fc(){
     let Ff = props.Ff.valor;
     let Fc = props.Fc.valor;
     if(naoNulos([Ff,Fc])){
-        armazenarEmProps("Ff_Fc", Ff/Fc);
+        armazenarEmProps("Ff_Fc", Ff/Fc*100);
     }
 }
 
@@ -261,7 +334,7 @@ function calcular_Fm_Fc(){
     let Fm = props.Fm.valor;
     let Fc = props.Fc.valor;
     if(naoNulos([Fm,Fc])){
-        armazenarEmProps("Fm_Fc", Fm/Fc);
+        armazenarEmProps("Fm_Fc", Fm/Fc*100);
     }
 }
 
@@ -362,40 +435,66 @@ function calcular_E2HT(){
 function calcularMicroMecanica(){
     estadoAlterado=false;
     for(i=0; i<2; i++){
+        verificarSomas();
+        function verificarSomas(){
+            let statusSomas=true;
+            let Vc = props.Vc.valor;
+            let Vf = props.Vf.valor;
+            let Vm = props.Vm.valor;
+            let Vv = props.Vv.valor;
+            if(naoNulos([Vc])){
+                if (naoNulos([Vf])){
+                    if(Vf>Vc){
+                        statusSomas=false;
+                    }
+                }
+                if(naoNulos([Vm])){
+                    if(Vm>Vc){
+                        statusSomas=false;
+                    }
+                }
+                if(naoNulos([Vv])){
+                    if(Vv>Vc){
+                        statusSomas=false;
+                    }
+                }
+            }
         
-    calcular_vf();
-    calcular_vm();
-    calcular_vv();
-    calcular_rhoC();
-    calcular_mf();
-    calcular_mm();
-    calcular_Mf();
-    calcular_Mm();
-    calcular_Vc();
-    calcular_Vf();
-    calcular_Vm();
-    calcular_Vv();
-    calcular_E1();
-    calcular_E2();
-    calcular_Ff();
-    calcular_Fm();
-    calcular_Fc();
-    calcular_Ff_Fc();
-    calcular_Fm_Fc();
-    calcular_nu12();
-    calcular_nu21();
-    calcular_Gm();
-    calcular_Gf();
-    calcular_G12();
-    calcular_etaCisalhamento();
-    calcular_G12HT();
-    calcular_etaE();
-    calcular_E2HT();
-    calcularTensaoUltima();
-    //calcularDefUlt();
-    calcularResistenciaCompressiva();
+            if(statusSomas){        
+                calcular_vf();
+                calcular_vm();
+                calcular_vv();
+                calcular_rhoC();
+                calcular_mf();
+                calcular_mm();
+                calcular_Mf();
+                calcular_Mm();
+                calcular_Vc();
+                calcular_Vf();
+                calcular_Vm();
+                calcular_Vv();
+                calcular_E1();
+                calcular_E2();
+                calcular_Ff();
+                calcular_Fm();
+                calcular_Fc();
+                calcular_Ff_Fc();
+                calcular_Fm_Fc();
+                calcular_nu12();
+                calcular_nu21();
+                calcular_Gm();
+                calcular_Gf();
+                calcular_G12();
+                calcular_etaCisalhamento();
+                calcular_G12HT();
+                calcular_etaE();
+                calcular_E2HT();
+                calcularTensaoUltima();
+                //calcularDefUlt();
+                calcularResistenciaCompressiva();   
+            }
+        }
     }
-
     return estadoAlterado;
 }
 
@@ -727,10 +826,11 @@ function calcularResistenciaCompressiva(){
         armazenarEmProps("menorEpsilonTransvUlt",menorEpsilon2Tult);
     }
     
+    let sigma1Cult="";
     if(naoNulos([E1,menorEpsilon2Tult,nu12])){
         //E1=E1*1e9;
-        let sigma1Cult = E1*menorEpsilon2Tult/nu12; //RESULTADO SIGMA1CULT
-        armazenarEmProps("modo1",sigma1Cult);
+
+         sigma1Cult= E1*menorEpsilon2Tult/nu12; //RESULTADO SIGMA1CULT
     }
 
     if(naoNulos([vf,Em,Ef])){
@@ -739,12 +839,16 @@ function calcularResistenciaCompressiva(){
         //Em=Em*1e9;
         S1C = 2*(vf+(1-vf)*Em/Ef)*(vf*Em*Ef/(3*(1-vf)))**(1/2); //resultado S1C
     }
+
+    if(naoNulos([sigma1Cult,S1C])){
+        armazenarEmProps("modo1",math.min(sigma1Cult,S1C)*1e-6);
+    }
     
     if(naoNulos([Gm,Vf])){
         //vf=vf/100;
         //Gm=Gm*1e9;
         S2C = Gm/(1-vf);
-        armazenarEmProps("modo2",S2C);
+        armazenarEmProps("modo2",S2C*1e-6);
     }
     /*
     if(naoNulos([S1C,S2C])){
@@ -757,7 +861,7 @@ function calcularResistenciaCompressiva(){
         //tauFult=tauFult*1e9;
         //tauMult=tauMult*1e9;
         let sigma1Cult_2 = 2*(tauFult*vf+tauMult*vm); // Resultado levemente diferente do exemplo usado no livro, mas os calculos indicam estar corretos.
-        armazenarEmProps("modo3",sigma1Cult_2);
+        armazenarEmProps("modo3",sigma1Cult_2*1e-6);
     }
 
     if(naoNulos([sigmaMCult,Em])){
@@ -773,7 +877,7 @@ function calcularResistenciaCompressiva(){
 
         let epsilon2C = (d_s*Em/Ef + (1-d_s))*epsilonC_m;
         let sigma2Cult=E2*epsilon2C;
-        armazenarEmProps("sigma2Cult",sigma2Cult);
+        armazenarEmProps("sigma2Cult",sigma2Cult*1e-6);
     }
 
     //let tau12Ult = G12*gama12Ult;
@@ -783,7 +887,7 @@ function calcularResistenciaCompressiva(){
 
         let gama12Ult = tauMult/Gm;
         let tau12Ult = G12*(d_s*Gm/Gf+(1-d_s))*gama12Ult; 
-        armazenarEmProps("tau12ult", tau12Ult);
+        armazenarEmProps("tau12ult", tau12Ult*1e-6);
     };
       
   
@@ -800,12 +904,12 @@ function calcularTensaoUltima(){
     let vf = props.vf.valor;
 
     if (naoNulos([Ef,sigmaFult,Em,sigmaMult, vf])){
-        Ef=Ef*1e9;
-        sigmaFult=sigmaFult*1e9;
-        Em=Em*1e9;
-        sigmaMult=sigmaMult*1e9;
-        vf=vf/100;
-
+        //Ef=Ef*1e9;
+        //sigmaFult=sigmaFult*1e9;
+        //Em=Em*1e9;
+        //sigmaMult=sigmaMult*1e9;
+        //vf=vf/100;
+        vf/=100;
         let epsilonFult = sigmaFult/Ef;
         let epsilonMult = sigmaMult/Em;
         let sigma1Tult = sigmaFult*vf + epsilonFult*Em*(1-vf);
@@ -815,7 +919,7 @@ function calcularTensaoUltima(){
     let E2 = props.E2.valor;
     let menorEpsilonTransvUlt = props.menorEpsilonTransvUlt.valor;
     if(naoNulos([E2,menorEpsilonTransvUlt])){
-        let sigma2Tult = E2*menorEpsilonTransvUlt;
+        let sigma2Tult = E2*menorEpsilonTransvUlt*1e3;
         armazenarEmProps("sigma2Tult",sigma2Tult);
     }
 
