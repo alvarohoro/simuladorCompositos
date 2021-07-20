@@ -50,8 +50,8 @@ for(let input in inputs){
             props[id].status="Digitado";
             props[id].travado=true;            
             
-            var status = (exibirResultadosMicroMecanica() );
-            //var status = (exibirResultadosMicroMecanica() || calcularMacroMecanicaLamina() || calcularMacroMecanicaLaminado());
+            //var status = (exibirResultadosMicroMecanica() );
+            var status = (exibirResultadosMicroMecanica() || calcularMacroMecanicaLamina() || calcularMacroMecanicaLaminado());
 
             
             if (valorAntigo==="")  status = true ;
@@ -195,14 +195,20 @@ function exibirCalculosMacros(lamina, ordem, elementoPai){
     var dadosDaLamina = lamina2;
 
     for(i=0;i<dadosDaLamina.length;i++){
-        var nomeMatriz = dadosDaLamina[i][0];
-        var matriz = dadosDaLamina[i][1];
+        let nomeMatrizAnterior = dadosDaLamina[i][0];
+        let nomeMatriz = nomeMatrizAnterior[0]+"<sub>";
+        for (let index = 1; index < nomeMatrizAnterior.length; index++) {
+            const letra = nomeMatrizAnterior[index];
+            nomeMatriz=nomeMatriz+letra;
+        }
+        nomeMatriz=nomeMatriz+"</sub>";
+        let matriz = dadosDaLamina[i][1];
         let unidade = "Pa";
         if(nomeMatriz.includes("ε") || nomeMatriz=="T"){
             unidade="u.a.";
-        } else if (nomeMatriz.includes("S")){
-            unidade="1/Pa";
-        }
+        } else if (nomeMatriz.startsWith("S")){
+            unidade="Pa<sup>-1</sup>";
+        } 
         imprimirMatriz(matriz,nomeMatriz,div.id,unidade);
     }
     //console.log("Acabou a exibição.");

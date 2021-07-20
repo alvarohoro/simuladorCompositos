@@ -1055,24 +1055,24 @@ function calcularMacroMecanicaLaminado(){
                 let angulo = lamina.angulo;
 
                 let exyk = math.add(e0,math.multiply(valorSuperior,k));
-                objetoABD[1]["exySuperior:"+angulo]=exyk;
+                objetoABD[1]["εxySuperior:"+angulo]=exyk;
                 
 
                 let exykComUltimoTermoDivPor2 = [exyk[0], exyk[1], [exyk[2]/2]];
-                console.log("exykComUltimoTermoDivPor2");
-                console.log(exykComUltimoTermoDivPor2);
+                //console.log("εxykComUltimoTermoDivPor2");
+                //console.log(exykComUltimoTermoDivPor2);
 
                 let e12k = math.multiply(dadosLaminado[l][1].T,exykComUltimoTermoDivPor2);
                 e12k = [e12k[0], e12k[1],[2*e12k[2]]];
-                objetoABD[1]["e12Superior:"+angulo]=e12k;
-                console.log("e12k");
-                console.log(e12k);
+                objetoABD[1]["ε12Superior:"+angulo]=e12k;
+                //console.log("ε12k");
+                //console.log(e12k);
                 
                 let tensoesGlobaisxyk = math.multiply(dadosLaminado[l][1].Qxy,exyk);
-                objetoABD[1]["sigmaXySuperior:"+angulo]=tensoesGlobaisxyk;
+                objetoABD[1]["σXySuperior:"+angulo]=tensoesGlobaisxyk;
 
                 let tensoesLocaisxyk = math.multiply(dadosLaminado[l][1].T,tensoesGlobaisxyk);
-                objetoABD[1]["sigma12Superior:"+angulo]=tensoesLocaisxyk;
+                objetoABD[1]["σ12Superior:"+angulo]=tensoesLocaisxyk;
 
             }
 
@@ -1097,6 +1097,9 @@ function valorEngenharia(unidade){
         case "kPa": return 1e3;
     }
 }
+
+
+
 
 
 

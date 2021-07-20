@@ -83,15 +83,19 @@
   }
 
 
+  #conteudoMicro .item label{
+    padding: 0 92px 0 0px;
+  }
   .item label{
     margin: 6px 0px 0px 3px;
     grid-row-start: 1;
     grid-column-start: 1;
     z-index: 2;
-    padding: 0 92px 0 0px;
     color: #333;
     cursor: pointer;
   }
+
+  
   .item input{
     padding: 5px 10px 5px 30px;
     border-radius: 50px;
@@ -676,9 +680,9 @@
     border:0;
   }
 
-  label {display:none}
+  #conteudoMicro label {display:none}
 
-  .item input{
+  #conteudoMicro .item input{
     margin: 0 auto;
     padding: 0;
     height: 100px;
