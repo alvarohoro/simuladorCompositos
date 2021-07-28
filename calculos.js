@@ -265,8 +265,8 @@ function calcular_Vv(){
     let vv = props.vv.valor;
     if(naoNulos([Vc,Vf,Vm])){
         armazenarEmProps("Vv", Vc-Vf-Vm);
-    }else if(naoNulos([Vf,vf,vv])){
-        armazenarEmProps("Vv",Vf*vv/vf);
+    }else if(naoNulos([Vc,vv])){
+        armazenarEmProps("Vv",Vc*vv);
 
     }
 }
