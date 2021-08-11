@@ -638,26 +638,38 @@ function determinandoTensoesMaximas(matrizesLamina){
         teoriaFalhaMaximaTensao();
 
         function teoriaFalhaMaximaTensao(){
+            if(naoNulos([sigma1TultF,sigma1CultF,tau12UltF])){
+                sigma1TultF*=1e6;
+                sigma1CultF*=1e6;
+                sigma2TultF*=1e6;
+                sigma2CultF*=1e6;
+                tau12UltF*=1e6;
+    
+                let resposta = [];
+                
+                if(sigma1 > sigma1TultF||sigma1 < -sigma1CultF||sigma2 > sigma2TultF||sigma2 < -sigma2CultF||tau12 > tau12UltF||tau12 < -tau12UltF){
+                    (resposta.push(`<h4 style="color:red">FALHA PELO MÉTODO DA MÁXIMA TENSÃO!</h4><br> `));
+                } else{
+                    (resposta.push(`<h4 style="color:green">NÃO FALHA PELO MÉTODO DA MÁXIMA TENSÃO!</h4> <br>`));
 
-            sigma1TultF*=1e6;
-            sigma1CultF*=1e6;
-            tau12UltF*=1e6;
-
-            let resposta = [];
-            if(sigma1 > sigma1TultF || sigma1<sigma1CultF){
-                (sigma1 > sigma1TultF) && (resposta.push(`σ<sub>1</sub> > (σ<span class="supsub"><sup>T</sup><sub>1</sub></span>)<sub>ult</sub>  `));
-                (sigma1 < sigma1CultF) && (resposta.push(`σ<sub>1</sub> > (σ<span class="supsub"><sup>C</sup><sub>1</sub></span>)<sub>ult</sub>  `));
+                }
+                //if(sigma1 > sigma1TultF || sigma1<sigma1CultF){
+                    (sigma1 > sigma1TultF) && (resposta.push(`σ<sub>1</sub> > (σ<span class="supsub"><sup>T</sup><sub>1</sub></span>)<sub>ult</sub>  `));
+                    (sigma1 < -sigma1CultF) && (resposta.push(`σ<sub>1</sub> < (σ<span class="supsub"><sup>C</sup><sub>1</sub></span>)<sub>ult</sub>  `));
+                //}
+                //if(sigma2 > sigma2TultF || sigma2<sigma2CultF){
+                    (sigma2 > sigma2TultF) && (resposta.push(`σ<sub>2</sub> > (σ<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub>  `));
+                    (sigma2 < -sigma2CultF) && (resposta.push(`σ<sub>2</sub> < (σ<span class="supsub"><sup>C</sup><sub>2</sub></span>)<sub>ult</sub>  `));            
+                //}
+                //if(tau12 > tau12UltF || tau12<-tau12UltF){
+    
+                    (tau12 > tau12UltF) && (resposta.push(`τ<sub>12</sub> > (τ<sub>12</sub>)<sub>ult</sub>`));
+                    (tau12 < -tau12UltF) && (resposta.push(`τ<sub>12</sub> < -(τ<sub>12</sub>)<sub>ult</sub>`));            
+                //}
+    
+                postarValor(resposta,"resultadosFalha");
             }
-            if(sigma2 > sigma2TultF || sigma2<sigma2CultF){
-                (sigma2 > sigma2TultF) && (resposta.push(`σ<sub>2</sub> > (σ<span class="supsub"><sup>T</sup><sub>2</sub></span>)<sub>ult</sub>  `));
-                (sigma2 < sigma2CultF) && (resposta.push(`σ<sub>2</sub> > (σ<span class="supsub"><sup>C</sup><sub>2</sub></span>)<sub>ult</sub>  `));            }
-            if(tau12 > tau12UltF || tau12<-tau12UltF){
-
-                (tau12 > tau12UltF) && (resposta.push(`τ<sub>12</sub> > (τ<sub>12</sub>)<sub>ult</sub>`));
-                (tau12 < -tau12UltF) && (resposta.push(`τ<sub>12</sub> < -(τ<sub>12</sub>)<sub>ult</sub>`));            
-            }
-
-            postarValor(resposta,"resultadosFalha");
+            
 
          
                 
