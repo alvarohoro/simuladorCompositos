@@ -204,7 +204,7 @@ function exibirCalculosMacros(lamina, ordem, elementoPai){
         nomeMatriz=nomeMatriz+"</sub>";
         let matriz = dadosDaLamina[i][1];
         let unidade = "Pa";
-        if(nomeMatriz.includes("ε") || nomeMatriz=="T"){
+        if(nomeMatriz.includes("ε") || nomeMatriz.includes("T")){
             unidade="u.a.";
         } else if (nomeMatriz.startsWith("S")){
             unidade="Pa<sup>-1</sup>";
