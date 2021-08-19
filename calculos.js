@@ -767,12 +767,6 @@ function determinandoTensoesMaximas(matrizesLamina){
 
 }
 
-
-
-
-
-
-
 //#endregion
 
 //#region CALCULO DE RESISTENCIAS ULTIMAS
@@ -827,9 +821,8 @@ function calcularResistenciaCompressiva(){
     let epsilonC_m="";
 
 
-
     if(naoNulos([sigmaMult,Em])){
-        epsilonMult = sigmaMult/Em; // RESULTADO (em)ult=0.2117*10^-1
+        epsilonMult = sigmaMult/Em; 
         armazenarEmProps("epsilonMult",epsilonMult);
     };
 
@@ -875,7 +868,6 @@ function calcularResistenciaCompressiva(){
         armazenarEmProps("sigma2Cult",sigma2Cult*1e-6);
     }
 
-    //let tau12Ult = G12*gama12Ult;
     if(naoNulos([G12,d_s,Gm,Gf,tauMult])){
        
         let gama12Ult = tauMult/Gm;

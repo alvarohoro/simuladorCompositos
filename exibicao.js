@@ -23,13 +23,11 @@ for(let input in inputs){
         label = document.getElementById(id).previousElementSibling;
         if(label!=null){
             label.addEventListener('dblclick', (event)=>{
-                //let id = event.target.id;
                 chavearTravado(id);
             });
         }
         
         elemento.addEventListener('dblclick', (event)=>{
-            //let id = event.target.id;
             chavearTravado(id);
         });
         
@@ -99,27 +97,7 @@ var resultadosMicroMecanica = document.getElementById("resultadosMicroMecanica")
 function exibirResultadosMicroMecanica(){
     return calcularMicroMecanica();
     
-    var pai = document.getElementById("resultadosMicroMecanica");
-    pai.innerHTML="";
-    var table = document.createElement("table");
-    pai.appendChild(table);
-    
-    /*
-    Object.keys(propriedades).forEach(key => {
-        
-        var tr = document.createElement("tr");
-        table.appendChild(tr);
-        
-        var td = document.createElement("td");
-        td.innerHTML=key;
-        tr.appendChild(td);
 
-        var td2 = document.createElement("td");
-
-        td2.innerHTML=propriedades[key];
-        tr.appendChild(td2);
-    });
-    */
 }
 
 function atualizarValorInput(item, valor){
@@ -128,14 +106,6 @@ function atualizarValorInput(item, valor){
 
 }
 
-// function mudarFundoCalculado(item, flag){
-//     var input = document.getElementById(item);
-//     if(flag){
-//         input.classList.add("calculado");
-//     }else{
-//         input.classList.remove("calculado");
-//     }
-// }
 
 function postarValor (oque,onde){
     let pai = document.getElementById(onde);
@@ -208,7 +178,14 @@ function exibirCalculosMacros(lamina, ordem, elementoPai){
             unidade="u.a.";
         } else if (nomeMatriz.startsWith("S")){
             unidade="Pa<sup>-1</sup>";
-        } 
+        } else if (nomeMatriz.includes("A")){
+            unidade="Pa m";
+        }  else if (nomeMatriz.includes("B")){
+            unidade="Pa m<sup>2</sup>";
+        }  else if (nomeMatriz.includes("D")){
+            unidade="Pa m<sup>3</sup>";
+        }  
+
         imprimirMatriz(matriz,nomeMatriz,div.id,unidade);
     }
     //console.log("Acabou a exibição.");
@@ -216,7 +193,6 @@ function exibirCalculosMacros(lamina, ordem, elementoPai){
 
 function imprimirMatriz(matriz, nome, elemento, unidade){
     let divPai = document.getElementById(elemento);
-    //div.innerHTML="";
     let div = document.createElement("div");
     divPai.appendChild(div);
     let nomeDaMatriz = document.createElement("span");
@@ -261,13 +237,13 @@ function estadoPlano(){
     let tauXY = props.tauXY.valor;
 
     if(naoNulos([sigmaX])){
-        valorTensao1.innerText=sigmaX + " " + props.sigmaX.unidade;
+        valorTensao1.innerText=Math.abs(sigmaX) + " " + props.sigmaX.unidade;
     }
     if(naoNulos([sigmaY])){
-        valorTensao2.innerText=sigmaY + " " + props.sigmaY.unidade;
+        valorTensao2.innerText=Math.abs(sigmaY) + " " + props.sigmaY.unidade;
     }
     if(naoNulos([tauXY])){
-        valorTensao12.innerText=tauXY + " " + props.tauXY.unidade;
+        valorTensao12.innerText=Math.abs(tauXY) + " " + props.tauXY.unidade;
     }
 
 
@@ -388,16 +364,10 @@ function estadoPlano(){
        
     }
     
-
-    //let theta = props.theta.valor;
     let angulo = props.angulo.valor;
     if(naoNulos([angulo])){
         document.documentElement.style.setProperty('--angulo', angulo+'deg');
     }
-
-
-
-
 }
 
 function limparElemento(elemento){
@@ -430,18 +400,7 @@ function desenharLaminas(){
             quadrado.setAttribute("style",`--angulo:${angulo}deg; margin-bottom:10px;`)
             gerarElementoEixos(quadrado,true,true);
         }
-
-
     }
-    /*
-    angulos.forEach(element => {
-        let quadrado = document.createElement("div");
-        quadrado.classList.add("laminaQuadrado");
-        quadrado.setAttribute("style",`--angulo:${element}deg`);
-        div.appendChild(quadrado);
-
-    });
-    */
 }
 
 
